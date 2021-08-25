@@ -1,0 +1,3 @@
+/Users/milodo/Desktop/orif/chess/build/CMakeFiles/rebuild_cache.dir
+/Users/milodo/Desktop/orif/chess/build/CMakeFiles/edit_cache.dir
+/Users/milodo/Desktop/orif/chess/build/CMakeFiles/Chess.dir
