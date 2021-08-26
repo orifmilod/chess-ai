@@ -5,10 +5,10 @@ const std::string RED = "\e[0;91m";
 const std::string BLUE = "\e[0;96m";
 const std::string YELLOW = "\e[0;93m";
 
-enum class Severity { INFO, WARN, ERROR };
-
 class Logger {
 private:
+  enum class Severity { INFO, WARN, ERROR };
+
   static void print_colored(const char *log, Severity severity) {
     const char *color_code = nullptr;
 
