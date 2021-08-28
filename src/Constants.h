@@ -1,3 +1,4 @@
+#pragma once
 #include "IPiece.h"
 
 // Maybe a macro for getting the pat

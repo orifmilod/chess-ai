@@ -11,6 +11,8 @@ add_executable(${PROJECT_NAME}
   src/Window.cpp
   src/Engine.h
   src/Engine.cpp
+  src/Board.h
+  src/Board.cpp
 
   #Utils
   src/utils/Logger.h

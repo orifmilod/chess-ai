@@ -1,5 +1,6 @@
-
+#pragma once
 #include <sys/types.h>
+
 enum class Piece {
   ROOK,
   BISHOP,

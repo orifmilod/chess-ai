@@ -1,6 +1,6 @@
 #include "Window.h"
+#include "utils/Logger.h"
 
-Window::Window() { Setup("Chess AI", sf::Vector2u(640, 480)); }
 Window::Window(const std::string &title, const sf::Vector2u &size) {
   Setup(title, size);
 }
@@ -41,10 +41,9 @@ void Window::ToggleFullscreen() {
 }
 
 void Window::BeginDraw() { m_window.clear(sf::Color::Black); }
+void Window::Draw(sf::Drawable &drawable) { m_window.draw(drawable); }
 void Window::EndDraw() { m_window.display(); }
 
 bool Window::IsDone() { return m_isDone; }
 bool Window::IsFullscreen() { return m_isFullscreen; }
 sf::Vector2u Window::GetWindowSize() { return m_windowSize; }
-
-void Window::Draw(sf::Drawable &drawable) { m_window.draw(drawable); }

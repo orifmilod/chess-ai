@@ -1,20 +1,21 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
 
 class Window {
 public:
-  Window();
   Window(const std::string &title, const sf::Vector2u &size);
   ~Window();
 
   void BeginDraw(); // Clear the window.
+  void Draw(sf::Drawable &drawable);
   void EndDraw();   // Display the changes.
+
   void Update();
   bool IsDone();
   bool IsFullscreen();
   sf::Vector2u GetWindowSize();
   void ToggleFullscreen();
-  void Draw(sf::Drawable &drawable);
 
 private:
   void Setup(const std::string &title, const sf::Vector2u &size);

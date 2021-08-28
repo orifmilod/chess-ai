@@ -1,8 +1,11 @@
+#pragma once
+#include "Board.h"
 #include "Window.h"
 
 class Engine {
 private:
   Window m_window;
+  Board board;
   sf::Texture m_texture;
   sf::Sprite m_sprite;
 
