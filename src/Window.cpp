@@ -47,3 +47,6 @@ void Window::EndDraw() { m_window.display(); }
 bool Window::IsDone() { return m_isDone; }
 bool Window::IsFullscreen() { return m_isFullscreen; }
 sf::Vector2u Window::GetWindowSize() { return m_windowSize; }
+sf::Vector2i Window::GetMousePossition() {
+  return sf::Mouse::getPosition(m_window);
+}

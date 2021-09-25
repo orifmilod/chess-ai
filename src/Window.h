@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string>
 
 class Window {
@@ -16,6 +17,7 @@ public:
   bool IsFullscreen();
   sf::Vector2u GetWindowSize();
   void ToggleFullscreen();
+  sf::Vector2i GetMousePossition();
 
 private:
   void Setup(const std::string &title, const sf::Vector2u &size);
