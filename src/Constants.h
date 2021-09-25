@@ -1,5 +1,5 @@
 #pragma once
-#include "IPiece.h"
+#include "piece/IPiece.h"
 
 // Maybe a macro for getting the pat
 inline const char *get_image_path(Piece piece) {

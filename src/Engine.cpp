@@ -15,13 +15,10 @@ Engine::Engine() : m_window("Chess AI", sf::Vector2u(1200, 900)) {
 
   Logger::info("Engine created");
 }
-void Engine::start() { Logger::info("Starting the engine"); };
-
 Engine::~Engine() { Logger::info("Engine is being destroyed"); }
 
-void Engine::HandleInput() {
+void Engine::start() { Logger::info("Starting the engine"); };
 
-}
 void Engine::Update() { m_window.Update(); }
 
 void Engine::Render() {
@@ -31,3 +28,4 @@ void Engine::Render() {
 }
 
 Window &Engine::GetWindow() { return m_window; }
+void Engine::HandleInput() {}

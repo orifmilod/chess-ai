@@ -1,2 +1,2 @@
-mkdir -p build && cd build
-cmake .. && make && ./Chess
+rm -rf build && mkdir -p build && cd build
+cmake .. && make 
