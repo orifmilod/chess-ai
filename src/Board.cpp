@@ -3,7 +3,7 @@
 #include "utils/Logger.h"
 #include <SFML/System/Clock.hpp>
 
-const float SIZE = 100;
+const float SIZE = 200;
 
 void Board::render(Window &window) {
   sf::RectangleShape rectangle;
