@@ -1,11 +1,7 @@
 #pragma once
 #include <sys/types.h>
 
-enum class Piece {
-  ROOK,
-  BISHOP,
-  PAWN
-};
+enum class Piece { ROOK, BISHOP, PAWN, KING, QUEEN, KNIGHT };
 
 struct Position {
   u_int x, y;

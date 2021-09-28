@@ -10,5 +10,11 @@ inline const char *get_image_path(Piece piece) {
     return "../assets/img/Chess_bdt60.png";
   case Piece::ROOK:
     return "../assets/img/Chess_bdt60.png";
+  case Piece::KING:
+    return "../assets/img/Chess_bdt60.png";
+  case Piece::KNIGHT:
+    return "../assets/img/Chess_bdt60.png";
+  case Piece::QUEEN:
+    return "../assets/img/Chess_bdt60.png";
   };
 }

@@ -5,7 +5,7 @@
 class Engine {
 private:
   Window m_window;
-  Board board;
+  Board m_board;
   sf::Texture m_texture;
   sf::Sprite m_sprite;
 

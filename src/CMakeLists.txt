@@ -15,24 +15,23 @@ add_executable(${PROJECT_NAME}
 
   #Pieces
   piece/IPiece.h
+  piece/Pawn.cpp
+  piece/Bishop.cpp
 
-  #Utils
   utils/Logger.h
+)
+
+target_link_directories(${PROJECT_NAME}
+  PRIVATE
+  ${SFML_LIBRARY_DIR}
+  utils
 )
 
 target_include_directories(${PROJECT_NAME} 
   PRIVATE
   ${SFML_INCLUDE_DIR}
-  utils
-  piece
+  .
 )
-
-
-target_link_directories(${PROJECT_NAME}
-  PRIVATE
-  ${SFML_LIBRARY_DIR}
-)
-
 
 find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)

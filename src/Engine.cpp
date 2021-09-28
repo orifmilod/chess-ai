@@ -5,14 +5,9 @@
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Vector2.hpp>
 
-Engine::Engine() : m_window("Chess AI", sf::Vector2u(1200, 900)) {
-  // TODO: Load the sprites into the memory
-  if (!m_texture.loadFromFile(get_image_path(Piece::BISHOP),
-                              sf::IntRect(10, 10, 62, 62))) {
-    Logger::error("Could not load image");
-  }
-  m_sprite.setTexture(m_texture);
-
+Engine::Engine()
+    : m_window("Chess AI", sf::Vector2u(1200, 900)),
+      m_board(PlayingColor::WHITE) {
   Logger::info("Engine created");
 }
 Engine::~Engine() { Logger::info("Engine is being destroyed"); }
@@ -23,7 +18,7 @@ void Engine::Update() { m_window.Update(); }
 
 void Engine::Render() {
   m_window.BeginDraw();
-  board.render(m_window);
+  m_board.render(m_window);
   m_window.EndDraw();
 }
 

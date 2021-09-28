@@ -6,9 +6,18 @@
 
 const float SIZE = 200;
 
-Board::Board() {
+Board::Board(PlayingColor color) : playingColor(color) {
   m_mouseClicked = false;
   m_mouseDraging = false;
+}
+
+void Board::reset_board_pieces() {
+  // If the user is white side player
+  if (playingColor == PlayingColor::WHITE) {
+    Logger::info("Render the pieces from white side");
+  } else {
+    Logger::info("Render the pieces from white side");
+  }
 }
 
 void Board::hover() {
