@@ -7,7 +7,7 @@
 
 Engine::Engine()
     : m_window("Chess AI", sf::Vector2u(1200, 900)),
-      m_board(PlayingColor::WHITE) {
+      m_board(PieceColor::WHITE) {
   Logger::info("Engine created");
 }
 Engine::~Engine() { Logger::info("Engine is being destroyed"); }

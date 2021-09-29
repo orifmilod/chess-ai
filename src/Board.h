@@ -2,20 +2,23 @@
 #include "Window.h"
 #include "piece/IPiece.h"
 #include <SFML/Window/Event.hpp>
+#include <memory>
+#include <unordered_map>
 
-enum class PlayingColor { BLACK, WHITE };
 class Board {
 
 private:
   sf::Event m_event;
   bool m_mouseClicked;
   bool m_mouseDraging;
-  std::vector<std::vector<IPiece>> board_pieces;
-  PlayingColor playingColor;
+  std::vector<std::vector<std::shared_ptr<IPiece>>> m_board_pieces;
+  PieceColor m_playingColor;
+  std::unordered_map<Piece, sf::Texture> m_piece_textures;
+  void render_board(Window &window);
+  void render_pieces(Window &window);
+  void setup_pieces();
 
 public:
-  Board(PlayingColor color);
+  Board(PieceColor color);
   void render(Window &window);
-  void hover();
-  void reset_board_pieces();
 };

@@ -4,19 +4,19 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
 
-const std::string IMAGE_PATH = "../../assets/img/Chess_bdt60.png";
+class King : public IPiece {
+  const std::string IMAGE_PATH = "../../assets/img/Chess_bdt60.png";
 
-class Bishop : public IPiece {
 public:
-  Bishop() {
+  King() {
     sf::Texture texture;
     if (texture.loadFromFile(IMAGE_PATH)) {
-      Logger::error("Failed to load Bishop image.");
+      Logger::error("Failed to load King image.");
     }
     sprite.setTexture(texture);
   }
 
-  ~Bishop(){};
+  ~King(){};
 
   void get_position() const override {
     Logger::info("Getting Bishop position", position.x, position.y);

@@ -14,9 +14,15 @@ add_executable(${PROJECT_NAME}
   Constants.h
 
   #Pieces
+  piece/PieceFactory.h
+  piece/PieceFactory.cpp
   piece/IPiece.h
   piece/Pawn.cpp
   piece/Bishop.cpp
+  piece/King.cpp
+  piece/Queen.cpp
+  piece/Knight.cpp
+  piece/Rook.cpp
 
   utils/Logger.h
 )
