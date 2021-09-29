@@ -7,12 +7,12 @@
 
 
 class Knight : public IPiece {
-  const std::string IMAGE_PATH = "../../assets/img/Chess_bdt60.png";
+  const std::string IMAGE_PATH = "../assets/img/knight_black.png";
 
 public:
   Knight() {
     sf::Texture texture;
-    if (texture.loadFromFile(IMAGE_PATH)) {
+    if (!texture.loadFromFile(IMAGE_PATH)) {
       Logger::error("Failed to load Knight image.");
     }
     sprite.setTexture(texture);

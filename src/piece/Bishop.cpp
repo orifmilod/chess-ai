@@ -4,13 +4,14 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
 
-const std::string IMAGE_PATH = "../../assets/img/Chess_bdt60.png";
 
 class Bishop : public IPiece {
+  const std::string IMAGE_PATH = "../assets/img/bishop_black.png";
+
 public:
   Bishop() {
     sf::Texture texture;
-    if (texture.loadFromFile(IMAGE_PATH)) {
+    if (!texture.loadFromFile(IMAGE_PATH)) {
       Logger::error("Failed to load Bishop image.");
     }
     sprite.setTexture(texture);

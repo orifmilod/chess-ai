@@ -68,8 +68,7 @@ void Board::render_pieces(Window &window) {
   // TODO: Check if the textures has been loaded
   // If the user is white side player
   if (m_playingColor == PieceColor::WHITE) {
-
-    Logger::info("Render the pieces from white side");
+    // Logger::info("Render the pieces from white side");
   } else {
     Logger::info("Render the pieces from white side");
   }

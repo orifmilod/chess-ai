@@ -5,12 +5,12 @@
 #include <string>
 
 class King : public IPiece {
-  const std::string IMAGE_PATH = "../../assets/img/Chess_bdt60.png";
+  const std::string IMAGE_PATH = "../assets/img/king_black.png";
 
 public:
   King() {
     sf::Texture texture;
-    if (texture.loadFromFile(IMAGE_PATH)) {
+    if (!texture.loadFromFile(IMAGE_PATH)) {
       Logger::error("Failed to load King image.");
     }
     sprite.setTexture(texture);

@@ -6,12 +6,12 @@
 
 
 class Queen : public IPiece {
-  const std::string IMAGE_PATH = "../../assets/img/Chess_bdt60.png";
+  const std::string IMAGE_PATH = "../assets/img/queen_black.png";
 
 public:
   Queen() {
     sf::Texture texture;
-    if (texture.loadFromFile(IMAGE_PATH)) {
+    if (!texture.loadFromFile(IMAGE_PATH)) {
       Logger::error("Failed to load Queen image.");
     }
     sprite.setTexture(texture);

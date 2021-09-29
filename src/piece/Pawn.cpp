@@ -6,12 +6,12 @@
 
 
 class Pawn : public IPiece {
-  const std::string IMAGE_PATH = "../../assets/img/Chess_bdt60.png";
+  const std::string IMAGE_PATH = "../assets/img/pawn_black.png";
 
 public:
   Pawn() {
     sf::Texture texture;
-    if (texture.loadFromFile(IMAGE_PATH)) {
+    if (!texture.loadFromFile(IMAGE_PATH)) {
       Logger::error("Failed to load Pawn image.");
     }
     sprite.setTexture(texture);
