@@ -4,6 +4,7 @@
 #include "piece/IPiece.h"
 #include "piece/PieceFactory.h"
 #include "utils/Logger.h"
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
@@ -13,6 +14,12 @@
 
 constexpr float PIECE_SIZE = 200.0;
 constexpr int BOARD_SIZE = 8;
+
+const sf::Color NORMAL_BLUE(25, 181, 254);
+const sf::Color HOVERED_BLUE(52, 152, 219);
+
+const sf::Color NORMAL_WHITE(228, 233, 237);
+const sf::Color HOVERED_WHITE(191, 191, 191);
 
 const std::vector<std::vector<Piece>> BOARD_PIECES_STRUCTURE = {
     {
@@ -50,7 +57,6 @@ void Board::setup_pieces() {
   // Add the pieces to the board
   for (int i = 0; i < BOARD_PIECES_STRUCTURE.size(); i++) {
     for (int j = 0; j < BOARD_PIECES_STRUCTURE[i].size(); j++) {
-      // Setting it for your side
       std::shared_ptr<IPiece> piece = piece_factory.create(
           BOARD_PIECES_STRUCTURE[i][j], PIECE_SIZE, PIECE_SIZE);
 
@@ -82,14 +88,14 @@ void Board::render_board(Window &window) {
 
   // Draw the light squares
   for (float y = 0; y < BOARD_SIZE; y++) {
-    for (float x = 0; x < 4; x++) {
+    for (float x = 0; x < BOARD_SIZE / 2.0; x++) {
       float offset = int(y) & 1 ? PIECE_SIZE : 0;
       rectangle.setPosition((PIECE_SIZE * x * 2) + offset, PIECE_SIZE * y);
-      rectangle.setFillColor(sf::Color::White);
+      rectangle.setFillColor(NORMAL_WHITE);
 
       // TODO: Change the background of the pieces which you can move
-      if (isHovering(rectangle, window)) {
-        rectangle.setFillColor(sf::Color::Green);
+      if (isHovering(rectangle, window) && m_board_pieces[y][x]) {
+        rectangle.setFillColor(HOVERED_WHITE);
       }
 
       window.Draw(rectangle);
@@ -100,11 +106,11 @@ void Board::render_board(Window &window) {
     for (float x = 0; x < 4; x++) {
       float offset = int(y) & 1 ? 0 : PIECE_SIZE;
       rectangle.setPosition((PIECE_SIZE * x * 2) + offset, PIECE_SIZE * y);
-      rectangle.setFillColor(sf::Color::Blue);
+      rectangle.setFillColor(NORMAL_BLUE);
 
       // TODO: Change the background of the pieces which you can move
-      if (isHovering(rectangle, window)) {
-        rectangle.setFillColor(sf::Color::Green);
+      if (isHovering(rectangle, window) && m_board_pieces[y][x]) {
+        rectangle.setFillColor(HOVERED_BLUE);
       }
 
       window.Draw(rectangle);
