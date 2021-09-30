@@ -1,6 +1,6 @@
 #pragma once
 #include "utils/Logger.h"
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics.hpp>
 #include <sys/types.h>
 
 enum class PieceColor { BLACK, WHITE };
@@ -16,12 +16,14 @@ protected:
   Piece type;
   Position position;
   PieceColor color;
-  sf::Sprite sprite;
 
 public:
+  sf::Texture texture;
+  sf::Sprite sprite;
+  IPiece(float sprite_width, float sprite_height){};
   virtual ~IPiece(){};
 
-  virtual void get_position() const = 0;
-  virtual void get_type() const = 0;
+  Position get_position() { return position; }
+  Piece get_type() { return type; }
   virtual void get_available_moves() const = 0;
 };

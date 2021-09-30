@@ -41,7 +41,9 @@ void Window::ToggleFullscreen() {
 }
 
 void Window::BeginDraw() { m_window.clear(sf::Color::Black); }
-void Window::Draw(sf::Drawable &drawable) { m_window.draw(drawable); }
+void Window::Draw(sf::Drawable &drawable) {
+  m_window.draw(drawable);
+}
 void Window::EndDraw() { m_window.display(); }
 
 bool Window::IsDone() { return m_isDone; }

@@ -4,12 +4,14 @@
 #include "piece/IPiece.h"
 #include "piece/PieceFactory.h"
 #include "utils/Logger.h"
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <vector>
 
-constexpr float SIZE = 200;
+constexpr float PIECE_SIZE = 200.0;
 constexpr int BOARD_SIZE = 8;
 
 const std::vector<std::vector<Piece>> BOARD_PIECES_STRUCTURE = {
@@ -49,11 +51,9 @@ void Board::setup_pieces() {
   for (int i = 0; i < BOARD_PIECES_STRUCTURE.size(); i++) {
     for (int j = 0; j < BOARD_PIECES_STRUCTURE[i].size(); j++) {
       // Setting it for your side
-      std::shared_ptr<IPiece> piece =
-          piece_factory.create(BOARD_PIECES_STRUCTURE[i][j]);
+      std::shared_ptr<IPiece> piece = piece_factory.create(
+          BOARD_PIECES_STRUCTURE[i][j], PIECE_SIZE, PIECE_SIZE);
 
-      Logger::info("Setting ", BOARD_SIZE - i - 1, " ", BOARD_SIZE - j - 1, " ",
-                   to_string(BOARD_PIECES_STRUCTURE[i][j]));
       m_board_pieces[BOARD_SIZE - i - 1][BOARD_SIZE - j - 1] = piece;
     }
   }
@@ -65,24 +65,26 @@ bool isHovering(sf::RectangleShape &rectangle, Window &window) {
 }
 
 void Board::render_pieces(Window &window) {
-  // TODO: Check if the textures has been loaded
-  // If the user is white side player
-  if (m_playingColor == PieceColor::WHITE) {
-    // Logger::info("Render the pieces from white side");
-  } else {
-    Logger::info("Render the pieces from white side");
+  for (int row = 0; row < BOARD_SIZE; row++) {
+    for (int col = 0; col < BOARD_SIZE; col++) {
+      if (m_board_pieces[row][col]) {
+        m_board_pieces[row][col]->sprite.setPosition(col * PIECE_SIZE,
+                                                     row * PIECE_SIZE);
+        window.Draw(m_board_pieces[row][col]->sprite);
+      }
+    }
   }
 }
 
 void Board::render_board(Window &window) {
   sf::RectangleShape rectangle;
-  rectangle.setSize({SIZE, SIZE});
+  rectangle.setSize({PIECE_SIZE, PIECE_SIZE});
 
   // Draw the light squares
   for (float y = 0; y < BOARD_SIZE; y++) {
     for (float x = 0; x < 4; x++) {
-      float offset = int(y) & 1 ? SIZE : 0;
-      rectangle.setPosition((SIZE * x * 2) + offset, SIZE * y);
+      float offset = int(y) & 1 ? PIECE_SIZE : 0;
+      rectangle.setPosition((PIECE_SIZE * x * 2) + offset, PIECE_SIZE * y);
       rectangle.setFillColor(sf::Color::White);
 
       // TODO: Change the background of the pieces which you can move
@@ -96,8 +98,8 @@ void Board::render_board(Window &window) {
 
   for (float y = 0; y < BOARD_SIZE; y++) {
     for (float x = 0; x < 4; x++) {
-      float offset = int(y) & 1 ? 0 : SIZE;
-      rectangle.setPosition((SIZE * x * 2) + offset, SIZE * y);
+      float offset = int(y) & 1 ? 0 : PIECE_SIZE;
+      rectangle.setPosition((PIECE_SIZE * x * 2) + offset, PIECE_SIZE * y);
       rectangle.setFillColor(sf::Color::Blue);
 
       // TODO: Change the background of the pieces which you can move
