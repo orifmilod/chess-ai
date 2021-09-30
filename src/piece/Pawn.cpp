@@ -4,7 +4,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
 
-
 class Pawn : public IPiece {
   const std::string IMAGE_PATH = "../assets/img/pawn_black.png";
 

@@ -6,7 +6,6 @@
 enum class PieceColor { BLACK, WHITE };
 enum class Piece { ROOK, BISHOP, PAWN, KING, QUEEN, KNIGHT };
 
-
 struct Position {
   u_int x, y;
 };

@@ -10,7 +10,7 @@ public:
 
   void BeginDraw(); // Clear the window.
   void Draw(sf::Drawable &drawable);
-  void EndDraw();   // Display the changes.
+  void EndDraw(); // Display the changes.
 
   void Update();
   bool IsDone();

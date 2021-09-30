@@ -4,7 +4,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
 
-
 class Queen : public IPiece {
   const std::string IMAGE_PATH = "../assets/img/queen_black.png";
 
