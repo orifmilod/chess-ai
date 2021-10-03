@@ -2,17 +2,18 @@
 #include "utils/Logger.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <filesystem>
 #include <string>
 
 class Rook : public IPiece {
-  const std::string IMAGE_PATH = "../assets/img/rook_black.png";
+  const std::string BLACK_IMAGE_PATH = "../assets/img/rook_black.png";
+  const std::string WHITE_IMAGE_PATH = "../assets/img/rook_white.png";
 
 public:
-  Rook(float sprite_width, float sprite_height)
-      : IPiece(sprite_width, sprite_height) {
+  Rook(float sprite_width, float sprite_height, bool isWhite)
+      : IPiece(sprite_width, sprite_height, isWhite) {
     type = Piece::ROOK;
-    if (!texture.loadFromFile(IMAGE_PATH)) {
+
+    if (!texture.loadFromFile(isWhite ? WHITE_IMAGE_PATH : BLACK_IMAGE_PATH)) {
       Logger::error("Failed to load Rook image.");
     }
     sprite.setTexture(texture);

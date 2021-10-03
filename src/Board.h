@@ -12,13 +12,13 @@ private:
   bool m_mouseClicked;
   bool m_mouseDraging;
   std::vector<std::vector<std::shared_ptr<IPiece>>> m_board_pieces;
-  PieceColor m_playingColor;
+  bool isWhite;
   std::unordered_map<Piece, sf::Texture> m_piece_textures;
   void render_board(Window &window);
   void render_pieces(Window &window);
   void setup_pieces();
 
 public:
-  Board(PieceColor color);
+  Board(bool isWhite);
   void render(Window &window);
 };

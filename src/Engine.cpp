@@ -6,8 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 
 Engine::Engine()
-    : m_window("Chess AI", sf::Vector2u(1200, 900)),
-      m_board(PieceColor::WHITE) {
+    : m_window("Chess AI", sf::Vector2u(1200, 900)), m_board(true) {
   Logger::info("Engine created");
 }
 Engine::~Engine() { Logger::info("Engine is being destroyed"); }

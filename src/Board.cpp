@@ -4,10 +4,8 @@
 #include "piece/IPiece.h"
 #include "piece/PieceFactory.h"
 #include "utils/Logger.h"
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/System/Clock.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <vector>
@@ -20,6 +18,9 @@ const sf::Color HOVERED_BLUE(52, 152, 219);
 
 const sf::Color NORMAL_WHITE(228, 233, 237);
 const sf::Color HOVERED_WHITE(191, 191, 191);
+
+// This structure was designed for black, for white we have to iterate in
+// reverse order
 
 const std::vector<std::vector<Piece>> BOARD_PIECES_STRUCTURE = {
     {
@@ -43,7 +44,7 @@ const std::vector<std::vector<Piece>> BOARD_PIECES_STRUCTURE = {
         Piece::PAWN,
     }};
 
-Board::Board(PieceColor color) : m_playingColor(color) {
+Board::Board(bool _isWhite) : isWhite(_isWhite) {
   m_mouseClicked = false;
   m_mouseDraging = false;
   setup_pieces();
@@ -54,13 +55,23 @@ void Board::setup_pieces() {
   m_board_pieces.resize(
       BOARD_SIZE, std::vector<std::shared_ptr<IPiece>>(BOARD_SIZE, nullptr));
 
-  // Add the pieces to the board
+  // Add the pieces to the board for white
   for (int i = 0; i < BOARD_PIECES_STRUCTURE.size(); i++) {
-    for (int j = 0; j < BOARD_PIECES_STRUCTURE[i].size(); j++) {
-      std::shared_ptr<IPiece> piece = piece_factory.create(
-          BOARD_PIECES_STRUCTURE[i][j], PIECE_SIZE, PIECE_SIZE);
+    for (int j = BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
+      std::shared_ptr<IPiece> piece =
+          piece_factory.create(BOARD_PIECES_STRUCTURE[i][BOARD_SIZE - j - 1],
+                               PIECE_SIZE, PIECE_SIZE, true);
 
       m_board_pieces[BOARD_SIZE - i - 1][BOARD_SIZE - j - 1] = piece;
+    }
+  }
+
+  for (int i = BOARD_PIECES_STRUCTURE.size() - 1; i >= 0; i--) {
+    for (int j = BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
+      std::shared_ptr<IPiece> piece = piece_factory.create(
+          BOARD_PIECES_STRUCTURE[i][j], PIECE_SIZE, PIECE_SIZE, false);
+
+      m_board_pieces[i][j] = piece;
     }
   }
 }

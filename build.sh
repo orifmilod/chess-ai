@@ -1,2 +1,2 @@
 rm -rf build && mkdir -p build && cd build
-cmake .. && make clang-format && ./bin/Chess
+cmake .. && make && ./bin/Chess

@@ -12,20 +12,21 @@
 #include <memory>
 
 std::shared_ptr<IPiece> PieceFactory::create(Piece piece, float sprite_width,
-                                             float sprite_height) {
+                                             float sprite_height,
+                                             bool isWhite) {
   switch (piece) {
   case Piece::PAWN:
-    return std::make_shared<Pawn>(sprite_width, sprite_height);
+    return std::make_shared<Pawn>(sprite_width, sprite_height, isWhite);
   case Piece::BISHOP:
-    return std::make_shared<Bishop>(sprite_width, sprite_height);
+    return std::make_shared<Bishop>(sprite_width, sprite_height, isWhite);
   case Piece::QUEEN:
-    return std::make_shared<Queen>(sprite_width, sprite_height);
+    return std::make_shared<Queen>(sprite_width, sprite_height, isWhite);
   case Piece::KING:
-    return std::make_shared<King>(sprite_width, sprite_height);
+    return std::make_shared<King>(sprite_width, sprite_height, isWhite);
   case Piece::ROOK:
-    return std::make_shared<Rook>(sprite_width, sprite_height);
+    return std::make_shared<Rook>(sprite_width, sprite_height, isWhite);
   case Piece::KNIGHT:
-    return std::make_shared<Knight>(sprite_width, sprite_height);
+    return std::make_shared<Knight>(sprite_width, sprite_height, isWhite);
   default:
     Logger::error("Data types is not defined");
     return nullptr;

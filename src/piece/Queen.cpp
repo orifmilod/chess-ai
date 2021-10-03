@@ -5,13 +5,15 @@
 #include <string>
 
 class Queen : public IPiece {
-  const std::string IMAGE_PATH = "../assets/img/queen_black.png";
+  const std::string BLACK_IMAGE_PATH = "../assets/img/queen_black.png";
+  const std::string WHITE_IMAGE_PATH = "../assets/img/queen_white.png";
 
 public:
-  Queen(float sprite_width, float sprite_height)
-      : IPiece(sprite_width, sprite_height) {
+  Queen(float sprite_width, float sprite_height, bool isWhite)
+      : IPiece(sprite_width, sprite_height, isWhite) {
     type = Piece::QUEEN;
-    if (!texture.loadFromFile(IMAGE_PATH)) {
+
+    if (!texture.loadFromFile(isWhite ? WHITE_IMAGE_PATH : BLACK_IMAGE_PATH)) {
       Logger::error("Failed to load Queen image.");
     }
     sprite.setTexture(texture);
@@ -25,6 +27,5 @@ public:
   }
 
   ~Queen(){};
-
   void get_available_moves() const override{};
 };

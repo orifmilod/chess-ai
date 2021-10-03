@@ -5,14 +5,15 @@
 #include <string>
 
 class Pawn : public IPiece {
-  const std::string IMAGE_PATH = "../assets/img/pawn_black.png";
+  const std::string BLACK_IMAGE_PATH = "../assets/img/pawn_black.png";
+  const std::string WHITE_IMAGE_PATH = "../assets/img/pawn_white.png";
 
 public:
-  Pawn(float sprite_width, float sprite_height)
-      : IPiece(sprite_width, sprite_height) {
+  Pawn(float sprite_width, float sprite_height, bool isWhite)
+      : IPiece(sprite_width, sprite_height, isWhite) {
     type = Piece::PAWN;
 
-    if (!texture.loadFromFile(IMAGE_PATH)) {
+    if (!texture.loadFromFile(isWhite ? WHITE_IMAGE_PATH : BLACK_IMAGE_PATH)) {
       Logger::error("Failed to load Pawn image.");
     }
     sprite.setTexture(texture);
