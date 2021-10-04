@@ -1,5 +1,8 @@
 #include "Window.h"
 #include "utils/Logger.h"
+#include <cstdint>
+
+constexpr std::uint8_t MAX_FPS = 60;
 
 Window::Window(const std::string &title, const sf::Vector2u &size) {
   Setup(title, size);
@@ -18,6 +21,7 @@ void Window::Setup(const std::string &title, const sf::Vector2u &size) {
 void Window::Create() {
   m_window.create({m_windowSize.x, m_windowSize.y, 32}, m_windowTitle,
                   sf::Style::Fullscreen);
+  m_window.setFramerateLimit(MAX_FPS);
 }
 
 void Window::Destroy() { m_window.close(); }
