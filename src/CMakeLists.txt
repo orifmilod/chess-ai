@@ -1,7 +1,7 @@
 project(Chess)
 
-set(SFML_LIBRARY_DIR "../libs/SFML/build/lib")
-set(SFML_INCLUDE_DIR "../libs/SFML/include")
+set(SFML_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/libs/SFML/build/lib")
+set(SFML_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/libs/SFML/include")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_executable(${PROJECT_NAME}
@@ -40,7 +40,6 @@ target_include_directories(${PROJECT_NAME}
   .
 )
 
-find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
 
 
