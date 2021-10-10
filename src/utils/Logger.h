@@ -28,23 +28,26 @@ private:
     std::cout << "\033" << color_code << log << "\033[0m -- ";
   }
 
-  template <class... Args> static void print_args(Args... args) {
-    (std::cout << ... << args) << std::endl;
+  template <class Args> static void print_args(Args args) {
+    std::cout << args << " ";
   }
 
 public:
-  template <class... Args> static void info(Args... args) {
+  template <class... Args> static void info(Args &&...args) {
     print_colored("[INFO] ", Severity::INFO);
-    print_args(args...);
+    int dummy[] = {0, ((void)print_args(std::forward<Args>(args)), 0)...};
+    std::cout << std::endl;
   }
 
-  template <class... Args> static void warn(Args... args) {
+  template <class... Args> static void warn(Args &&...args) {
     print_colored("[WARN] ", Severity::WARN);
-    print_args(args...);
+    int dummy[] = {0, ((void)print_args(std::forward<Args>(args)), 0)...};
+    std::cout << std::endl;
   }
 
-  template <class... Args> static void error(Args... args) {
+  template <class... Args> static void error(Args &&...args) {
     print_colored("[ERROR]", Severity::ERROR);
-    print_args(args...);
+    int dummy[] = {0, ((void)print_args(std::forward<Args>(args)), 0)...};
+    std::cout << std::endl;
   }
 };
