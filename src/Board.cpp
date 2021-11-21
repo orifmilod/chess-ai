@@ -6,8 +6,8 @@
 #include "utils/Logger.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/Mouse.hpp>
+#include <SFML/Window.hpp>
+#include <memory>
 #include <vector>
 
 constexpr float PIECE_SIZE = 200.0;
@@ -48,6 +48,12 @@ Board::Board(bool _isWhite) : isWhite(_isWhite) {
   m_mouseClicked = false;
   m_mouseDraging = false;
   setup_pieces();
+
+  eventManager.addObserver(
+      "mouse-click", sf::Event::EventType::MouseButtonPressed,
+      [](std::unique_ptr<sf::Event> event) {
+        Logger::info("callback called successfully on the onclick");
+      });
 }
 
 void Board::setup_pieces() {
@@ -104,7 +110,7 @@ void Board::render_board(Window &window) {
       rectangle.setPosition((PIECE_SIZE * x * 2) + offset, PIECE_SIZE * y);
       rectangle.setFillColor(NORMAL_WHITE);
 
-      // TODO: Change the background of the pieces which you can move
+      // Change the background of the pieces which you can move
       if (isHovering(rectangle, window) && m_board_pieces[y][x]) {
         rectangle.setFillColor(HOVERED_WHITE);
       }
@@ -119,9 +125,12 @@ void Board::render_board(Window &window) {
       rectangle.setPosition((PIECE_SIZE * x * 2) + offset, PIECE_SIZE * y);
       rectangle.setFillColor(NORMAL_BLUE);
 
-      // TODO: Change the background of the pieces which you can move
+      // Change the background of the pieces which can be moved
+      // i.e can't move pieces which are pinned
       if (isHovering(rectangle, window) && m_board_pieces[y][x]) {
         rectangle.setFillColor(HOVERED_BLUE);
+
+        // Clicked on the piece
       }
 
       window.Draw(rectangle);

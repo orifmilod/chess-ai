@@ -1,6 +1,9 @@
 #include "Window.h"
+#include "events/Event.h"
 #include "utils/Logger.h"
 #include <cstdint>
+#include <memory>
+#include <optional>
 
 constexpr std::uint8_t MAX_FPS = 60;
 
@@ -27,13 +30,12 @@ void Window::Create() {
 void Window::Destroy() { m_window.close(); }
 
 void Window::Update() {
-  sf::Event event;
-  while (m_window.pollEvent(event)) {
-    if (event.type == sf::Event::Closed) {
+  std::unique_ptr<sf::Event> event = GetEvents();
+  while (event) {
+    if (event->type == sf::Event::Closed) {
       m_isDone = true;
-    } else if (event.type == sf::Event::KeyPressed &&
-               event.key.code == sf::Keyboard::F5) {
-      ToggleFullscreen();
+    } else if (event != nullptr) {
+      eventManager.triggerEvent(std::move(event));
     }
   }
 }
@@ -45,12 +47,25 @@ void Window::ToggleFullscreen() {
 }
 
 void Window::BeginDraw() { m_window.clear(sf::Color::Black); }
+
 void Window::Draw(sf::Drawable &drawable) { m_window.draw(drawable); }
+
 void Window::EndDraw() { m_window.display(); }
 
 bool Window::IsDone() { return m_isDone; }
+
 bool Window::IsFullscreen() { return m_isFullscreen; }
+
 sf::Vector2u Window::GetWindowSize() { return m_windowSize; }
+
 sf::Vector2i Window::GetMousePossition() {
   return sf::Mouse::getPosition(m_window);
+}
+
+std::unique_ptr<sf::Event> Window::GetEvents() {
+  sf::Event event;
+  if (m_window.pollEvent(event)) {
+    return std::make_unique<sf::Event>(event);
+  }
+  return nullptr;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Window.h"
+#include "events/EventManager.h"
 #include "piece/IPiece.h"
 #include <SFML/Window/Event.hpp>
 #include <memory>
@@ -21,4 +22,5 @@ private:
 public:
   Board(bool isWhite);
   void render(Window &window);
+  EventManager eventManager;
 };

@@ -1,6 +1,8 @@
 #pragma once
+#include "events/EventManager.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <memory>
 #include <string>
 
 class Window {
@@ -18,6 +20,7 @@ public:
   sf::Vector2u GetWindowSize();
   void ToggleFullscreen();
   sf::Vector2i GetMousePossition();
+  std::unique_ptr<sf::Event> GetEvents();
 
 private:
   void Setup(const std::string &title, const sf::Vector2u &size);
@@ -28,4 +31,6 @@ private:
   std::string m_windowTitle;
   bool m_isDone;
   bool m_isFullscreen;
+
+  EventManager eventManager;
 };

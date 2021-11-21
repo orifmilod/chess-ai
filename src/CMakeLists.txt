@@ -14,6 +14,9 @@ add_executable(${PROJECT_NAME}
   Board.cpp
   Constants.h
 
+  events/EventManager.h
+  events/EventManager.cpp
+
   #Pieces
   piece/PieceFactory.h
   piece/PieceFactory.cpp
