@@ -1,9 +1,7 @@
 #include "Window.h"
-#include "events/Event.h"
 #include "utils/Logger.h"
 #include <cstdint>
 #include <memory>
-#include <optional>
 
 constexpr std::uint8_t MAX_FPS = 60;
 
