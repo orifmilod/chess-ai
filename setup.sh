@@ -1,5 +1,5 @@
 #build 3rd party libs
-rm -rf ./libs/SFML/build
+git submodule init && git submodule update
 mkdir libs/SFML/build
 cd libs/SFML/build
 cmake .. 
