@@ -1,7 +1,5 @@
 project(Chess)
 
-set(SFML_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/libs/SFML/build/lib")
-set(SFML_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/libs/SFML/include")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_executable(${PROJECT_NAME}
@@ -31,15 +29,15 @@ add_executable(${PROJECT_NAME}
   utils/Logger.h
 )
 
+find_package(SFML COMPONENTS graphics window system REQUIRED)
+
 target_link_directories(${PROJECT_NAME}
   PRIVATE
-  ${SFML_LIBRARY_DIR}
   utils
 )
 
 target_include_directories(${PROJECT_NAME} 
   PRIVATE
-  ${SFML_INCLUDE_DIR}
   .
 )
 
