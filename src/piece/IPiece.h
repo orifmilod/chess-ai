@@ -1,8 +1,6 @@
 #pragma once
 #include "utils/Logger.h"
 #include <SFML/Graphics.hpp>
-#include <sys/_types/_u_int16_t.h>
-#include <sys/types.h>
 
 enum class Piece { ROOK, BISHOP, PAWN, KING, QUEEN, KNIGHT };
 
