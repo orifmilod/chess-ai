@@ -1,7 +1,6 @@
 project(chess_tests)
 
-find_package(GTest)
-message(STATUS ${GTEST_INCLUDE_DIRS})
+find_package(GTest REQUIRED)
 
 add_executable(${PROJECT_NAME}
   EngineTests.cpp
@@ -16,6 +15,6 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} 
-  gtest
   pthread
+  GTest::GTest
 )
