@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <memory>
 
-constexpr std::uint8_t MAX_FPS = 60;
+constexpr std::uint8_t MAX_FPS = 70;
 
 Window::Window(const std::string &title, const sf::Vector2u &size) {
   Setup(title, size);
