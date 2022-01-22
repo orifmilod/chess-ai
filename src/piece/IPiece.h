@@ -1,6 +1,7 @@
 #pragma once
 #include "utils/Logger.h"
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 enum class Piece { ROOK, BISHOP, PAWN, KING, QUEEN, KNIGHT };
 
