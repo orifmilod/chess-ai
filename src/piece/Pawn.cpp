@@ -27,5 +27,8 @@ public:
   }
 
   ~Pawn(){};
-  void get_available_moves() const override{};
+
+  void get_available_moves(BoardPieces boardPieces) const override{
+    Logger::info("doing calculation");
+  }
 };

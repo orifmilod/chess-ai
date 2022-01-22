@@ -27,5 +27,5 @@ public:
   }
 
   ~Rook(){};
-  void get_available_moves() const override{};
+  void get_available_moves(BoardPieces boardPieces) const override{};
 };

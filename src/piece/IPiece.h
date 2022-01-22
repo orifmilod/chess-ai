@@ -8,6 +8,9 @@ struct Position {
   u_int x, y;
 };
 
+class IPiece;
+using BoardPieces = std::vector<std::vector<std::shared_ptr<IPiece>>>;
+
 class IPiece {
 protected:
   Piece type;
@@ -26,5 +29,5 @@ public:
 
   Position get_position() { return position; }
   Piece get_type() { return type; }
-  virtual void get_available_moves() const = 0;
+  virtual void get_available_moves(BoardPieces boardPieces) const = 0;
 };

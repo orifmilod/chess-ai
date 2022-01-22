@@ -2,6 +2,10 @@ project(Chess)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+add_subdirectory(piece)
+add_subdirectory(utils)
+add_subdirectory(events)
+
 add_executable(${PROJECT_NAME}
   main.cpp
   Window.h
@@ -11,22 +15,6 @@ add_executable(${PROJECT_NAME}
   Board.h
   Board.cpp
   Constants.h
-
-  events/EventManager.h
-  events/EventManager.cpp
-
-  #Pieces
-  piece/PieceFactory.h
-  piece/PieceFactory.cpp
-  piece/IPiece.h
-  piece/Pawn.cpp
-  piece/Bishop.cpp
-  piece/King.cpp
-  piece/Queen.cpp
-  piece/Knight.cpp
-  piece/Rook.cpp
-
-  utils/Logger.h
 )
 
 find_package(SFML COMPONENTS graphics window system REQUIRED)
@@ -34,6 +22,8 @@ find_package(SFML COMPONENTS graphics window system REQUIRED)
 target_link_directories(${PROJECT_NAME}
   PRIVATE
   utils
+  piece
+  events
 )
 
 target_include_directories(${PROJECT_NAME} 
@@ -41,7 +31,14 @@ target_include_directories(${PROJECT_NAME}
   .
 )
 
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
+target_link_libraries(${PROJECT_NAME} 
+  #external 
+  sfml-graphics sfml-window sfml-system 
+  #internal
+  pieces
+  utils
+  events
+)
 
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

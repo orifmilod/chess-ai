@@ -56,7 +56,6 @@ void EventManager::removeObserver(const std::string &name) {
 
 void EventManager::triggerEvent(std::unique_ptr<sf::Event> event) {
   for (const auto &observer : callbacks[event->type]) {
-    Logger::info("Triggered event", to_string(event->type));
     observer.callback(std::move(event));
   }
 }
