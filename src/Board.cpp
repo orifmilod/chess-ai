@@ -10,14 +10,6 @@
 #include <memory>
 #include <vector>
 
-constexpr float PIECE_SIZE = 200.0;
-constexpr int BOARD_SIZE = 8;
-
-const sf::Color NORMAL_BLUE(25, 181, 254);
-const sf::Color HOVERED_BLUE(52, 152, 219);
-
-const sf::Color NORMAL_WHITE(228, 233, 237);
-const sf::Color HOVERED_WHITE(191, 191, 191);
 
 // This structure was designed for black, for white we have to iterate in
 // reverse order
@@ -129,8 +121,6 @@ void Board::render_board(Window &window) {
       // i.e can't move pieces which are pinned
       if (isHovering(rectangle, window) && m_board_pieces[y][x]) {
         rectangle.setFillColor(HOVERED_BLUE);
-
-        // Clicked on the piece
       }
 
       window.Draw(rectangle);
