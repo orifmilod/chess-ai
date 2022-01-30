@@ -4,7 +4,7 @@
 
 class Engine {
 private:
-  Window m_window;
+  std::shared_ptr<Window> m_window;
   Board m_board;
   sf::Texture m_texture;
   sf::Sprite m_sprite;
@@ -15,8 +15,10 @@ public:
 
   void HandleInput();
   void Update();
-  void Render();
 
   static void start();
-  Window &GetWindow();
+  bool IsDone();
 };
+
+// Extract code to a DrawEngine and all objects that needs to draw something to
+// inheirt IDraw and call the to obj.Draw();

@@ -4,10 +4,8 @@
 int main() {
   Engine game;
 
-  while (!game.GetWindow().IsDone()) {
+  while (!game.IsDone()) {
     // Game loop.
-    game.HandleInput();
     game.Update();
-    game.Render();
   }
 }

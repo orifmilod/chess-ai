@@ -6,7 +6,6 @@
 #include "utils/Logger.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <SFML/Window.hpp>
 #include <memory>
 #include <vector>
 
@@ -36,7 +35,8 @@ const std::vector<std::vector<Piece>> BOARD_PIECES_STRUCTURE = {
         Piece::PAWN,
     }};
 
-Board::Board(bool _isWhite) : isWhite(_isWhite) {
+Board::Board(std::shared_ptr<WindowInterface> window, bool _isWhite)
+    : m_window(window), isWhite(_isWhite) {
   m_mouseClicked = false;
   m_mouseDraging = false;
   setup_pieces();
@@ -74,24 +74,19 @@ void Board::setup_pieces() {
   }
 }
 
-bool isHovering(sf::RectangleShape &rectangle, Window &window) {
-  return rectangle.getGlobalBounds().contains(
-      static_cast<sf::Vector2f>(window.GetMousePossition()));
-}
-
-void Board::render_pieces(Window &window) {
+void Board::render_pieces() {
   for (int row = 0; row < BOARD_SIZE; row++) {
     for (int col = 0; col < BOARD_SIZE; col++) {
       if (m_board_pieces[row][col]) {
         m_board_pieces[row][col]->sprite.setPosition(col * PIECE_SIZE,
                                                      row * PIECE_SIZE);
-        window.Draw(m_board_pieces[row][col]->sprite);
+        m_window->Draw(m_board_pieces[row][col]->sprite);
       }
     }
   }
 }
 
-void Board::render_board(Window &window) {
+void Board::render_board() {
   sf::RectangleShape rectangle;
   rectangle.setSize({PIECE_SIZE, PIECE_SIZE});
 
@@ -103,11 +98,11 @@ void Board::render_board(Window &window) {
       rectangle.setFillColor(NORMAL_WHITE);
 
       // Change the background of the pieces which you can move
-      if (isHovering(rectangle, window) && m_board_pieces[y][x]) {
+      if (m_window->isHovering(rectangle) && m_board_pieces[y][x]) {
         rectangle.setFillColor(HOVERED_WHITE);
       }
 
-      window.Draw(rectangle);
+      m_window->Draw(rectangle);
     }
   }
 
@@ -119,16 +114,16 @@ void Board::render_board(Window &window) {
 
       // Change the background of the pieces which can be moved
       // i.e can't move pieces which are pinned
-      if (isHovering(rectangle, window) && m_board_pieces[y][x]) {
+      if (m_window->isHovering(rectangle) && m_board_pieces[y][x]) {
         rectangle.setFillColor(HOVERED_BLUE);
       }
 
-      window.Draw(rectangle);
+      m_window->Draw(rectangle);
     }
   }
 }
 
-void Board::render(Window &window) {
-  render_board(window);
-  render_pieces(window);
+void Board::render() {
+  render_board();
+  render_pieces();
 }

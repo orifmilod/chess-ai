@@ -1,14 +1,15 @@
 #pragma once
-#include "Window.h"
+#include "WindowInterface.h"
 #include "events/EventManager.h"
 #include "piece/IPiece.h"
 
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/Window.hpp>
 #include <memory>
 #include <unordered_map>
 
 class Board {
-
 private:
   sf::Event m_event;
   bool m_mouseClicked;
@@ -16,12 +17,14 @@ private:
   BoardPieces m_board_pieces;
   bool isWhite;
   std::unordered_map<Piece, sf::Texture> m_piece_textures;
-  void render_board(Window &window);
-  void render_pieces(Window &window);
+  std::shared_ptr<WindowInterface> m_window;
+
+  void render_pieces();
+  void render_board();
   void setup_pieces();
 
 public:
-  Board(bool isWhite);
-  void render(Window &window);
+  Board(std::shared_ptr<WindowInterface> window, bool isWhite);
+  void render();
   EventManager eventManager;
 };

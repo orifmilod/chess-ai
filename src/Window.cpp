@@ -1,5 +1,7 @@
 #include "Window.h"
 #include "utils/Logger.h"
+#include <SFML/Graphics/Shape.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <cstdint>
 #include <memory>
 
@@ -56,8 +58,9 @@ bool Window::IsFullscreen() { return m_isFullscreen; }
 
 sf::Vector2u Window::GetWindowSize() { return m_windowSize; }
 
-sf::Vector2i Window::GetMousePossition() {
-  return sf::Mouse::getPosition(m_window);
+bool Window::isHovering(sf::Shape &shape) {
+  return shape.getGlobalBounds().contains(
+      static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window)));
 }
 
 std::unique_ptr<sf::Event> Window::GetEvents() {
@@ -67,3 +70,4 @@ std::unique_ptr<sf::Event> Window::GetEvents() {
   }
   return nullptr;
 }
+
