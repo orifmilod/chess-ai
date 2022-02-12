@@ -7,33 +7,24 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <memory>
+#include <optional>
 #include <vector>
 
+namespace {
+/*
+ * Checks if the mouse click wan the board and if so return the index of the
+ * board cell
+ */
+std::optional<Position> clickedPiece(sf::Event::MouseButtonEvent mouseEvent) {
+  if (mouseEvent.x > BOARD_LENGTH || mouseEvent.y > BOARD_LENGTH) {
+    return std::nullopt;
+  }
 
-// This structure was designed for black, for white we have to iterate in
-// reverse order
+  return Position{.x = static_cast<uint>(ceil(mouseEvent.x / 200)),
+                  .y = static_cast<uint>(ceil(mouseEvent.y / 200))};
+}
 
-const std::vector<std::vector<Piece>> BOARD_PIECES_STRUCTURE = {
-    {
-        Piece::ROOK,
-        Piece::KNIGHT,
-        Piece::BISHOP,
-        Piece::QUEEN,
-        Piece::KING,
-        Piece::BISHOP,
-        Piece::KNIGHT,
-        Piece::ROOK,
-    },
-    {
-        Piece::PAWN,
-        Piece::PAWN,
-        Piece::PAWN,
-        Piece::PAWN,
-        Piece::PAWN,
-        Piece::PAWN,
-        Piece::PAWN,
-        Piece::PAWN,
-    }};
+} // namespace
 
 Board::Board(std::shared_ptr<WindowInterface> window, bool _isWhite)
     : m_window(window), isWhite(_isWhite) {
@@ -43,9 +34,7 @@ Board::Board(std::shared_ptr<WindowInterface> window, bool _isWhite)
 
   eventManager.addObserver(
       "mouse-click", sf::Event::EventType::MouseButtonPressed,
-      [](std::unique_ptr<sf::Event> event) {
-        Logger::info("callback called successfully on the onclick");
-      });
+      std::bind(&Board::clickedOnBoard, this, std::placeholders::_1));
 }
 
 void Board::setup_pieces() {
@@ -106,6 +95,7 @@ void Board::render_board() {
     }
   }
 
+  // Draw the dark squares
   for (float y = 0; y < BOARD_SIZE; y++) {
     for (float x = 0; x < 4; x++) {
       float offset = int(y) & 1 ? 0 : PIECE_SIZE;
@@ -126,4 +116,18 @@ void Board::render_board() {
 void Board::render() {
   render_board();
   render_pieces();
+}
+
+void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
+  // Check if the mouse clicked on any of the pieces
+  std::optional<Position> maybePiecePosition = clickedPiece(event->mouseButton);
+  // Did not click on the board or any piece on the board
+  if (!maybePiecePosition.has_value() ||
+      !m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]) {
+    Logger::info("Did not click on any piece");
+    return;
+  }
+
+  Logger::info("Clicked on a piece at x:", maybePiecePosition.value().x,
+               ", y: ", maybePiecePosition.value().y);
 }

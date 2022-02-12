@@ -22,6 +22,7 @@ private:
   void render_pieces();
   void render_board();
   void setup_pieces();
+  void clickedOnBoard(std::unique_ptr<sf::Event> event);
 
 public:
   Board(std::shared_ptr<WindowInterface> window, bool isWhite);
