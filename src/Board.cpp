@@ -6,6 +6,7 @@
 #include "utils/Logger.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <math.h>
 #include <memory>
 #include <optional>
 #include <vector>
