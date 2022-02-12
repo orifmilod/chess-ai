@@ -43,21 +43,23 @@ void Board::setup_pieces() {
   m_board_pieces.resize(
       BOARD_SIZE, std::vector<std::shared_ptr<IPiece>>(BOARD_SIZE, nullptr));
 
-  // Add the pieces to the board for white
+  // Add white pieces to the board
   for (int i = 0; i < BOARD_PIECES_STRUCTURE.size(); i++) {
     for (int j = BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
-      std::shared_ptr<IPiece> piece =
-          piece_factory.create(BOARD_PIECES_STRUCTURE[i][BOARD_SIZE - j - 1],
-                               PIECE_SIZE, PIECE_SIZE, true);
+      std::shared_ptr<IPiece> piece = piece_factory.create(
+          BOARD_PIECES_STRUCTURE[i][BOARD_SIZE - j - 1], PIECE_SIZE, PIECE_SIZE,
+          true, {.x = static_cast<uint>(i), .y = static_cast<uint>(j)});
 
       m_board_pieces[BOARD_SIZE - i - 1][BOARD_SIZE - j - 1] = piece;
     }
   }
 
+  // Add black pieces to the board
   for (int i = BOARD_PIECES_STRUCTURE.size() - 1; i >= 0; i--) {
     for (int j = BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
       std::shared_ptr<IPiece> piece = piece_factory.create(
-          BOARD_PIECES_STRUCTURE[i][j], PIECE_SIZE, PIECE_SIZE, false);
+          BOARD_PIECES_STRUCTURE[i][j], PIECE_SIZE, PIECE_SIZE, false,
+          {.x = static_cast<uint>(i), .y = static_cast<uint>(j)});
 
       m_board_pieces[i][j] = piece;
     }
@@ -128,6 +130,10 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
     Logger::info("Did not click on any piece");
     return;
   }
+
+  std::vector<Position> possibleMoves =
+      m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]
+          ->get_available_moves(m_board_pieces);
 
   Logger::info("Clicked on a piece at x:", maybePiecePosition.value().x,
                ", y: ", maybePiecePosition.value().y);

@@ -9,8 +9,8 @@ class King : public IPiece {
   const std::string WHITE_IMAGE_PATH = "../assets/img/king_white.png";
 
 public:
-  King(float sprite_width, float sprite_height, bool isWhite)
-      : IPiece(sprite_width, sprite_height, isWhite) {
+  King(float sprite_width, float sprite_height, bool isWhite, Position position)
+      : IPiece(sprite_width, sprite_height, isWhite, position) {
     type = Piece::KING;
 
     if (!texture.loadFromFile(isWhite ? WHITE_IMAGE_PATH : BLACK_IMAGE_PATH)) {
@@ -27,5 +27,9 @@ public:
   }
 
   ~King(){};
-  void get_available_moves(BoardPieces boardPieces) const override{};
+
+  std::vector<Position>
+  get_available_moves(const BoardPieces &boardPieces) override {
+    return {};
+  };
 };

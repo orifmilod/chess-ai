@@ -5,12 +5,13 @@
 #include <string>
 
 class Pawn : public IPiece {
+  bool hasMoved = false;
   const std::string BLACK_IMAGE_PATH = "../assets/img/pawn_black.png";
   const std::string WHITE_IMAGE_PATH = "../assets/img/pawn_white.png";
 
 public:
-  Pawn(float sprite_width, float sprite_height, bool isWhite)
-      : IPiece(sprite_width, sprite_height, isWhite) {
+  Pawn(float sprite_width, float sprite_height, bool isWhite, Position position)
+      : IPiece(sprite_width, sprite_height, isWhite, position) {
     type = Piece::PAWN;
 
     if (!texture.loadFromFile(isWhite ? WHITE_IMAGE_PATH : BLACK_IMAGE_PATH)) {
@@ -28,7 +29,18 @@ public:
 
   ~Pawn(){};
 
-  void get_available_moves(BoardPieces boardPieces) const override{
-    Logger::info("doing calculation");
+  std::vector<Position>
+  get_available_moves(const BoardPieces &boardPieces) override {
+    if (isPiecePinned(boardPieces)) {
+      return {};
+    }
+    std::vector<Position> moves;
+
+    if (!hasMoved) {
+      moves.emplace_back(Position{.x = mPosition.x + 2, .y = mPosition.y});
+      hasMoved = true;
+    }
+
+    return moves;
   }
 };

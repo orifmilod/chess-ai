@@ -21,6 +21,8 @@ private:
 
   void render_pieces();
   void render_board();
+  void render_possible_moves();
+
   void setup_pieces();
   void clickedOnBoard(std::unique_ptr<sf::Event> event);
 
