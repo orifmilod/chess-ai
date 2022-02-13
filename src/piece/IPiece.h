@@ -16,7 +16,6 @@ using BoardPieces = std::vector<std::vector<std::shared_ptr<IPiece>>>;
 class IPiece {
 protected:
   Piece type;
-  Position position;
   bool isWhite;
   float sprite_width, sprite_height;
   Position mPosition;
@@ -31,7 +30,7 @@ public:
 
   virtual ~IPiece() = default;
 
-  Position get_position() noexcept { return position; }
+  Position get_position() noexcept { return mPosition; }
 
   Piece get_type() noexcept { return type; }
 

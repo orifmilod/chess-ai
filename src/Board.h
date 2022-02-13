@@ -9,6 +9,21 @@
 #include <memory>
 #include <unordered_map>
 
+namespace {
+struct Move {
+  Position startPosition;
+  Position endPosition;
+};
+
+// void print_board(const BoardPieces &board) {
+// for (int i = 0; i < 8; i++) {
+// for (int j = 0; j < 8; j++) {
+// }
+// }
+// }
+
+} // namespace
+
 class Board {
 private:
   sf::Event m_event;
@@ -25,6 +40,7 @@ private:
 
   void setup_pieces();
   void clickedOnBoard(std::unique_ptr<sf::Event> event);
+  void movePiece(Move move);
 
 public:
   Board(std::shared_ptr<WindowInterface> window, bool isWhite);

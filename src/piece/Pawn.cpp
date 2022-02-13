@@ -34,11 +34,11 @@ public:
     if (isPiecePinned(boardPieces)) {
       return {};
     }
-    std::vector<Position> moves;
 
+    std::vector<Position> moves;
     if (!hasMoved) {
-      moves.emplace_back(Position{.x = mPosition.x + 2, .y = mPosition.y});
-      hasMoved = true;
+      moves.emplace_back(
+          Position{.x = mPosition.x, .y = mPosition.y + (isWhite ? -2 : 2)});
     }
 
     return moves;

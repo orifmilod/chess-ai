@@ -38,6 +38,7 @@ Board::Board(std::shared_ptr<WindowInterface> window, bool _isWhite)
       std::bind(&Board::clickedOnBoard, this, std::placeholders::_1));
 }
 
+// TODO: Use uint for iteration and  need for static_cast
 void Board::setup_pieces() {
   PieceFactory piece_factory;
   m_board_pieces.resize(
@@ -46,20 +47,22 @@ void Board::setup_pieces() {
   // Add white pieces to the board
   for (int i = 0; i < BOARD_PIECES_STRUCTURE.size(); i++) {
     for (int j = BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
-      std::shared_ptr<IPiece> piece = piece_factory.create(
-          BOARD_PIECES_STRUCTURE[i][BOARD_SIZE - j - 1], PIECE_SIZE, PIECE_SIZE,
-          true, {.x = static_cast<uint>(i), .y = static_cast<uint>(j)});
+      std::shared_ptr<IPiece> piece =
+          piece_factory.create(BOARD_PIECES_STRUCTURE[i][BOARD_SIZE - j - 1],
+                               PIECE_SIZE, PIECE_SIZE, true,
+                               {.x = static_cast<uint>(BOARD_SIZE - j - 1),
+                                .y = static_cast<uint>(BOARD_SIZE - i - 1)});
 
       m_board_pieces[BOARD_SIZE - i - 1][BOARD_SIZE - j - 1] = piece;
     }
   }
 
-  // Add black pieces to the board
+    // Add black pieces to the board
   for (int i = BOARD_PIECES_STRUCTURE.size() - 1; i >= 0; i--) {
     for (int j = BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
       std::shared_ptr<IPiece> piece = piece_factory.create(
           BOARD_PIECES_STRUCTURE[i][j], PIECE_SIZE, PIECE_SIZE, false,
-          {.x = static_cast<uint>(i), .y = static_cast<uint>(j)});
+          {.x = static_cast<uint>(j), .y = static_cast<uint>(i)});
 
       m_board_pieces[i][j] = piece;
     }
@@ -135,6 +138,18 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
       m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]
           ->get_available_moves(m_board_pieces);
 
-  Logger::info("Clicked on a piece at x:", maybePiecePosition.value().x,
-               ", y: ", maybePiecePosition.value().y);
+  Logger::info("Possible moves", possibleMoves.size());
+
+  for (const Position &move : possibleMoves) {
+    Logger::info("x:", move.x, "y", move.y);
+  }
+}
+
+void Board::movePiece(Move move) {
+  // Move piece from start to end position
+  m_board_pieces[move.endPosition.y][move.endPosition.x] =
+      std::move(m_board_pieces[move.startPosition.y][move.startPosition.x]);
+
+  // Set start pos to nullptr
+  m_board_pieces[move.startPosition.y][move.startPosition.x] = nullptr;
 }
