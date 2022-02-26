@@ -70,4 +70,3 @@ std::unique_ptr<sf::Event> Window::GetEvents() {
   }
   return nullptr;
 }
-

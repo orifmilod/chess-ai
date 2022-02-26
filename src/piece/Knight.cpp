@@ -30,8 +30,8 @@ public:
 
   ~Knight(){};
 
-  std::vector<Position>
-  get_available_moves(const BoardPieces &boardPieces) override {
+  std::vector<Position> get_available_moves(
+      const BoardPieces &boardPieces) override {
     return {};
   };
 };

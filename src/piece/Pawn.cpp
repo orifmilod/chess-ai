@@ -29,17 +29,29 @@ public:
 
   ~Pawn(){};
 
-  std::vector<Position>
-  get_available_moves(const BoardPieces &boardPieces) override {
-    if (isPiecePinned(boardPieces)) {
-      return {};
-    }
+  std::vector<Position> get_available_moves(
+      const BoardPieces &boardPieces) override {
+    int reverse = isWhite ? -1 : 1;
 
     std::vector<Position> moves;
     if (!hasMoved) {
       moves.emplace_back(
-          Position{.x = mPosition.x, .y = mPosition.y + (isWhite ? -2 : 2)});
+          Position{.x = mPosition.x, .y = mPosition.y + reverse * 2});
     }
+
+    // Forward move
+    add_move_if_legal(mPosition.x, mPosition.y + reverse * 1, moves,
+                      boardPieces);
+
+    // Upper left move
+    add_move_if_legal(mPosition.x + reverse * 1, mPosition.y + reverse * 1,
+                      moves, boardPieces, true);
+
+    // top right move
+    add_move_if_legal(mPosition.x - reverse * 1, mPosition.y + reverse * 1,
+                      moves, boardPieces, true);
+
+    // TODO: Remove all the moves which will expose a check
 
     return moves;
   }

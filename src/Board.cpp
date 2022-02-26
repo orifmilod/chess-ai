@@ -28,7 +28,7 @@ std::optional<Position> clickedPiece(sf::Event::MouseButtonEvent mouseEvent) {
 } // namespace
 
 Board::Board(std::shared_ptr<WindowInterface> window, bool _isWhite)
-    : m_window(window), isWhite(_isWhite) {
+    : isWhite(_isWhite), m_window(window) {
   m_mouseClicked = false;
   m_mouseDraging = false;
   setup_pieces();
@@ -57,7 +57,7 @@ void Board::setup_pieces() {
     }
   }
 
-    // Add black pieces to the board
+  // Add black pieces to the board
   for (int i = BOARD_PIECES_STRUCTURE.size() - 1; i >= 0; i--) {
     for (int j = BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
       std::shared_ptr<IPiece> piece = piece_factory.create(

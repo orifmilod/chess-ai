@@ -45,9 +45,9 @@ public:
   ~EventManager();
 
   // TODO: consider making the event parameter in callback a unqiue_ptr
-  static bool
-  addObserver(const std::string &name, sf::Event::EventType eventType,
-              std::function<void(std::unique_ptr<sf::Event>)> callback);
+  static bool addObserver(
+      const std::string &name, sf::Event::EventType eventType,
+      std::function<void(std::unique_ptr<sf::Event>)> callback);
 
   void triggerEvent(std::unique_ptr<sf::Event> event);
   static void removeObserver(const std::string &name);

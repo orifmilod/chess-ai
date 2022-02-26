@@ -1,4 +1,7 @@
 #pragma once
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
 #include <iostream>
 #include <string>
 
@@ -51,3 +54,4 @@ public:
     std::cout << std::endl;
   }
 };
+#pragma GCC diagnostic pop
