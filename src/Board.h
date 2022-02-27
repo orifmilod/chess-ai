@@ -14,14 +14,6 @@ struct Move {
   Position startPosition;
   Position endPosition;
 };
-
-// void print_board(const BoardPieces &board) {
-// for (int i = 0; i < 8; i++) {
-// for (int j = 0; j < 8; j++) {
-// }
-// }
-// }
-
 } // namespace
 
 class Board {
@@ -41,9 +33,10 @@ private:
   void setup_pieces();
   void clickedOnBoard(std::unique_ptr<sf::Event> event);
   void movePiece(Move move);
+  EventManager eventManager;
+  std::vector<Position> m_possibleMoves;
 
 public:
   Board(std::shared_ptr<WindowInterface> window, bool isWhite);
   void render();
-  EventManager eventManager;
 };
