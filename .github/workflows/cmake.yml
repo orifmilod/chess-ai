@@ -38,3 +38,11 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ./tests/chess_tests
       
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        name: Chess
+        path: ${{github.workspace}}/build
+
+
+      
