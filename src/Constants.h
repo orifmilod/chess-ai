@@ -3,7 +3,7 @@
 
 namespace Constants {
 // Maybe a macro for getting the pat
-inline const char *to_string(Piece piece) {
+inline const char *toString(Piece piece) {
   switch (piece) {
   case Piece::PAWN:
     return "PAWN";

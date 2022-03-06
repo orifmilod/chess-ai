@@ -8,62 +8,62 @@
 constexpr std::uint8_t MAX_FPS = 70;
 
 Window::Window(const std::string &title, const sf::Vector2u &size) {
-  Setup(title, size);
+  setup(title, size);
 }
-Window::~Window() { Destroy(); }
+Window::~Window() { destroy(); }
 
-void Window::Setup(const std::string &title, const sf::Vector2u &size) {
+void Window::setup(const std::string &title, const sf::Vector2u &size) {
   m_windowTitle = title;
   m_windowSize = size;
   m_isDone = false;
   m_isFullscreen = false;
 
-  Create();
+  create();
 }
 
-void Window::Create() {
+void Window::create() {
   m_window.create({m_windowSize.x, m_windowSize.y, 32}, m_windowTitle,
                   sf::Style::Fullscreen);
   m_window.setFramerateLimit(MAX_FPS);
 }
 
-void Window::Destroy() { m_window.close(); }
+void Window::destroy() { m_window.close(); }
 
-void Window::Update() {
-  std::unique_ptr<sf::Event> event = GetEvents();
+void Window::update() {
+  std::unique_ptr<sf::Event> event = getEvents();
   while (event) {
     if (event->type == sf::Event::Closed) {
       m_isDone = true;
     } else if (event != nullptr) {
-      eventManager.triggerEvent(std::move(event));
+      m_eventManager.triggerEvent(std::move(event));
     }
   }
 }
 
-void Window::ToggleFullscreen() {
+void Window::toggleFullscreen() {
   m_isFullscreen = !m_isFullscreen;
-  Destroy();
-  Create();
+  destroy();
+  create();
 }
 
-void Window::BeginDraw() { m_window.clear(sf::Color::Black); }
+void Window::beginDraw() { m_window.clear(sf::Color::Black); }
 
-void Window::Draw(sf::Drawable &drawable) { m_window.draw(drawable); }
+void Window::draw(sf::Drawable &drawable) { m_window.draw(drawable); }
 
-void Window::EndDraw() { m_window.display(); }
+void Window::endDraw() { m_window.display(); }
 
-bool Window::IsDone() { return m_isDone; }
+bool Window::isDone() { return m_isDone; }
 
-bool Window::IsFullscreen() { return m_isFullscreen; }
+bool Window::isFullscreen() { return m_isFullscreen; }
 
-sf::Vector2u Window::GetWindowSize() { return m_windowSize; }
+sf::Vector2u Window::getWindowSize() { return m_windowSize; }
 
 bool Window::isHovering(sf::Shape &shape) {
   return shape.getGlobalBounds().contains(
       static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window)));
 }
 
-std::unique_ptr<sf::Event> Window::GetEvents() {
+std::unique_ptr<sf::Event> Window::getEvents() {
   sf::Event event;
   if (m_window.pollEvent(event)) {
     return std::make_unique<sf::Event>(event);

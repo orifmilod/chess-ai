@@ -10,26 +10,27 @@ class Rook : public IPiece {
   const std::string WHITE_IMAGE_PATH = "../assets/img/rook_white.png";
 
 public:
-  Rook(float sprite_width, float sprite_height, bool isWhite, Position position)
-      : IPiece(sprite_width, sprite_height, isWhite, position) {
-    type = Piece::ROOK;
+  Rook(float spriteWidth, float spriteHeight, bool isWhite, Position position)
+      : IPiece(spriteWidth, spriteHeight, isWhite, position) {
+    m_type = Piece::ROOK;
 
-    if (!texture.loadFromFile(isWhite ? WHITE_IMAGE_PATH : BLACK_IMAGE_PATH)) {
+    if (!m_texture.loadFromFile(isWhite ? WHITE_IMAGE_PATH
+                                        : BLACK_IMAGE_PATH)) {
       Logger::error("Failed to load Rook image.");
     }
-    sprite.setTexture(texture);
+    m_sprite.setTexture(m_texture);
 
-    auto texture_rect = sprite.getTextureRect();
-    sf::Vector2f sprite_size = {
-        static_cast<float>(sprite_width / texture_rect.width),
-        static_cast<float>(sprite_height / texture_rect.height)};
+    auto textureRect = m_sprite.getTextureRect();
+    sf::Vector2f spriteSize = {
+        static_cast<float>(spriteWidth / textureRect.width),
+        static_cast<float>(spriteHeight / textureRect.height)};
 
-    sprite.setScale(sprite_size);
+    m_sprite.setScale(spriteSize);
   }
 
   ~Rook(){};
 
-  std::vector<Position> get_available_moves(
+  std::vector<Position> getAvailableMoves(
       const BoardPieces &boardPieces) override {
     return {};
   };

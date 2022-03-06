@@ -12,30 +12,30 @@ public:
   ~Window();
 
   // Clear the window.
-  void BeginDraw();
-  void Draw(sf::Drawable &drawable) override;
+  void beginDraw();
+  void draw(sf::Drawable &drawable) override;
 
   // Display the changes.
-  void EndDraw();
+  void endDraw();
 
   bool isHovering(sf::Shape &shape) override;
 
-  void Update();
-  bool IsDone();
-  bool IsFullscreen();
-  void ToggleFullscreen();
-  sf::Vector2u GetWindowSize();
-  std::unique_ptr<sf::Event> GetEvents();
+  void update();
+  bool isDone();
+  bool isFullscreen();
+  void toggleFullscreen();
+  sf::Vector2u getWindowSize();
+  std::unique_ptr<sf::Event> getEvents();
 
 private:
-  void Setup(const std::string &title, const sf::Vector2u &size);
-  void Destroy();
-  void Create();
+  void setup(const std::string &title, const sf::Vector2u &size);
+  void destroy();
+  void create();
   sf::RenderWindow m_window;
   sf::Vector2u m_windowSize;
   std::string m_windowTitle;
   bool m_isDone;
   bool m_isFullscreen;
 
-  EventManager eventManager;
+  EventManager m_eventManager;
 };

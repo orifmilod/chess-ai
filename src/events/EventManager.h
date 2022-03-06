@@ -5,8 +5,9 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
-inline const char *to_string(const sf::Event::EventType &eventType) {
+inline const char *toString(const sf::Event::EventType &eventType) {
   switch (eventType) {
   case sf::Event::EventType::Closed:
     return "Closed";
@@ -29,12 +30,12 @@ inline const char *to_string(const sf::Event::EventType &eventType) {
 }
 
 struct Observer {
-  std::string name;
-  std::function<void(std::unique_ptr<sf::Event>)> callback;
+  std::string m_name;
+  std::function<void(std::unique_ptr<sf::Event>)> m_callback;
 
-  bool operator==(const Observer &other) { return other.name == name; }
+  bool operator==(const Observer &other) { return other.m_name == m_name; }
 
-  bool operator==(const std::string &_name) { return _name == name; }
+  bool operator==(const std::string &name) { return name == m_name; }
 };
 
 static std::map<sf::Event::EventType, std::vector<Observer>> callbacks;
@@ -51,7 +52,4 @@ public:
 
   void triggerEvent(std::unique_ptr<sf::Event> event);
   static void removeObserver(const std::string &name);
-
-private:
-  bool has_focus;
 };

@@ -13,11 +13,11 @@ public:
   Engine();
   ~Engine();
 
-  void HandleInput();
-  void Update();
+  void handleInput();
+  void update();
 
   static void start();
-  bool IsDone();
+  bool isDone();
 };
 
 // Extract code to a DrawEngine and all objects that needs to draw something to

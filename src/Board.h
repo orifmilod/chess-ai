@@ -11,8 +11,8 @@
 
 namespace {
 struct Move {
-  Position startPosition;
-  Position endPosition;
+  Position m_startPosition;
+  Position m_endPosition;
 };
 } // namespace
 
@@ -22,18 +22,18 @@ private:
   bool m_mouseClicked;
   bool m_mouseDraging;
   BoardPieces m_board_pieces;
-  bool isWhite;
+  bool m_isWhite;
   std::unordered_map<Piece, sf::Texture> m_piece_textures;
   std::shared_ptr<WindowInterface> m_window;
 
-  void render_pieces();
-  void render_board();
-  void render_possible_moves();
+  void renderPieces();
+  void renderBoard();
+  void renderPossibleMoves();
 
-  void setup_pieces();
+  void setupPieces();
   void clickedOnBoard(std::unique_ptr<sf::Event> event);
   void movePiece(Move move);
-  EventManager eventManager;
+  EventManager m_eventManager;
   std::vector<Position> m_possibleMoves;
 
 public:

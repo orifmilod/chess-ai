@@ -13,45 +13,46 @@ class Logger {
 private:
   enum class Severity { INFO, WARN, ERROR };
 
-  static void print_colored(const char *log, Severity severity) {
-    const char *color_code = nullptr;
+  static void printColored(const char *log, Severity severity) {
+    const char *colorCode = nullptr;
 
     switch (severity) {
     case Severity::INFO:
-      color_code = BLUE.c_str();
+      colorCode = BLUE.c_str();
       break;
     case Severity::WARN:
-      color_code = YELLOW.c_str();
+      colorCode = YELLOW.c_str();
       break;
     case Severity::ERROR:
-      color_code = RED.c_str();
+      colorCode = RED.c_str();
       break;
     }
 
-    std::cout << "\033" << color_code << log << "\033[0m -- ";
+    std::cout << "\033" << colorCode << log << "\033[0m -- ";
   }
 
-  template <class Args> static void print_args(Args args) {
+  template <class Args> static void printArgs(Args args) {
     std::cout << args << " ";
   }
 
 public:
   template <class... Args> static void info(Args &&...args) {
-    print_colored("[INFO] ", Severity::INFO);
-    int dummy[] = {0, ((void)print_args(std::forward<Args>(args)), 0)...};
+    printColored("[INFO] ", Severity::INFO);
+    int dummy[] = {0, ((void)printArgs(std::forward<Args>(args)), 0)...};
     std::cout << std::endl;
   }
 
   template <class... Args> static void warn(Args &&...args) {
-    print_colored("[WARN] ", Severity::WARN);
-    int dummy[] = {0, ((void)print_args(std::forward<Args>(args)), 0)...};
+    printColored("[WARN] ", Severity::WARN);
+    int dummy[] = {0, ((void)printArgs(std::forward<Args>(args)), 0)...};
     std::cout << std::endl;
   }
 
   template <class... Args> static void error(Args &&...args) {
-    print_colored("[ERROR]", Severity::ERROR);
-    int dummy[] = {0, ((void)print_args(std::forward<Args>(args)), 0)...};
+    printColored("[ERROR]", Severity::ERROR);
+    int dummy[] = {0, ((void)printArgs(std::forward<Args>(args)), 0)...};
     std::cout << std::endl;
   }
 };
+// NOLINTNEXTLINE
 #pragma GCC diagnostic pop

@@ -1,5 +1,5 @@
-#include "Engine.h"
 #include "Constants.h"
+#include "Engine.h"
 #include "Window.h"
 #include "utils/Logger.h"
 #include <SFML/Graphics.hpp>
@@ -16,12 +16,12 @@ Engine::~Engine() { Logger::info("Engine has been destroyed"); }
 
 void Engine::start() { Logger::info("Starting the engine"); };
 
-void Engine::Update() {
-  m_window->Update();
+void Engine::update() {
+  m_window->update();
 
-  m_window->BeginDraw();
+  m_window->beginDraw();
   m_board.render();
-  m_window->EndDraw();
+  m_window->endDraw();
 }
 
-bool Engine::IsDone() { return m_window->IsDone(); }
+bool Engine::isDone() { return m_window->isDone(); }

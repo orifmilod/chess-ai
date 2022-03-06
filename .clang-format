@@ -3,3 +3,4 @@ AlwaysBreakAfterReturnType: None
 PenaltyReturnTypeOnItsOwnLine: 1000000
 IndentWidth: 2
 AccessModifierOffset: -2
+

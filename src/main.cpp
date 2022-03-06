@@ -4,8 +4,8 @@
 int main() {
   Engine game;
 
-  while (!game.IsDone()) {
+  while (!game.isDone()) {
     // Game loop.
-    game.Update();
+    game.update();
   }
 }

@@ -26,8 +26,8 @@ bool EventManager::addObserver(
   // }
 
   callbacks[eventType].emplace_back(
-      Observer{.name = name, .callback = std::move(callback)});
-  Logger::info("Observer:", name, "subscribed to:", to_string(eventType));
+      Observer{.m_name = name, .m_callback = std::move(callback)});
+  Logger::info("Observer:", name, "subscribed to:", toString(eventType));
   return true;
 }
 
@@ -36,9 +36,9 @@ void EventManager::removeObserver(const std::string &name) {
 
   for (const auto &[eventType, observers] : callbacks) {
     for (const Observer &observer : observers) {
-      if (observer.name == name) {
+      if (observer.m_name == name) {
         Logger::info("Observer has removed, observer name:", name,
-                     "event type:", to_string(eventType));
+                     "event type:", toString(eventType));
         break;
         foundObserver = true;
       }
@@ -56,6 +56,6 @@ void EventManager::removeObserver(const std::string &name) {
 
 void EventManager::triggerEvent(std::unique_ptr<sf::Event> event) {
   for (const auto &observer : callbacks[event->type]) {
-    observer.callback(std::move(event));
+    observer.m_callback(std::move(event));
   }
 }

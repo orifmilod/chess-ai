@@ -29,20 +29,20 @@ std::optional<Position> clickedPiece(sf::Event::MouseButtonEvent mouseEvent) {
 
 } // namespace
 
-Board::Board(std::shared_ptr<WindowInterface> window, bool _isWhite)
-    : isWhite(_isWhite), m_window(window) {
+Board::Board(std::shared_ptr<WindowInterface> window, bool isWhite)
+    : m_isWhite(isWhite), m_window(window) {
   m_mouseClicked = false;
   m_mouseDraging = false;
-  setup_pieces();
+  setupPieces();
 
-  eventManager.addObserver(
+  m_eventManager.addObserver(
       "mouse-click", sf::Event::EventType::MouseButtonPressed,
       std::bind(&Board::clickedOnBoard, this, std::placeholders::_1));
 }
 
 // TODO: Use uint for iteration and  need for static_cast
-void Board::setup_pieces() {
-  PieceFactory piece_factory;
+void Board::setupPieces() {
+  PieceFactory pieceFactory;
   m_board_pieces.resize(
       Constants::BOARD_SIZE,
       std::vector<std::shared_ptr<IPiece>>(Constants::BOARD_SIZE, nullptr));
@@ -50,7 +50,7 @@ void Board::setup_pieces() {
   // Add white pieces to the board
   for (int i = 0; i < Constants::BOARD_PIECES_STRUCTURE.size(); i++) {
     for (int j = Constants::BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
-      std::shared_ptr<IPiece> piece = piece_factory.create(
+      std::shared_ptr<IPiece> piece = pieceFactory.create(
           Constants::BOARD_PIECES_STRUCTURE[i][Constants::BOARD_SIZE - j - 1],
           Constants::PIECE_SIZE, Constants::PIECE_SIZE, true,
           {.x = static_cast<uint>(Constants::BOARD_SIZE - j - 1),
@@ -64,7 +64,7 @@ void Board::setup_pieces() {
   // Add black pieces to the board
   for (int i = Constants::BOARD_PIECES_STRUCTURE.size() - 1; i >= 0; i--) {
     for (int j = Constants::BOARD_PIECES_STRUCTURE[0].size() - 1; j >= 0; j--) {
-      std::shared_ptr<IPiece> piece = piece_factory.create(
+      std::shared_ptr<IPiece> piece = pieceFactory.create(
           Constants::BOARD_PIECES_STRUCTURE[i][j], Constants::PIECE_SIZE,
           Constants::PIECE_SIZE, false,
           {.x = static_cast<uint>(j), .y = static_cast<uint>(i)});
@@ -74,19 +74,19 @@ void Board::setup_pieces() {
   }
 }
 
-void Board::render_pieces() {
+void Board::renderPieces() {
   for (int row = 0; row < Constants::BOARD_SIZE; row++) {
     for (int col = 0; col < Constants::BOARD_SIZE; col++) {
       if (m_board_pieces[row][col]) {
-        m_board_pieces[row][col]->sprite.setPosition(
+        m_board_pieces[row][col]->m_sprite.setPosition(
             col * Constants::PIECE_SIZE, row * Constants::PIECE_SIZE);
-        m_window->Draw(m_board_pieces[row][col]->sprite);
+        m_window->draw(m_board_pieces[row][col]->m_sprite);
       }
     }
   }
 }
 
-void Board::render_board() {
+void Board::renderBoard() {
   sf::RectangleShape rectangle;
   rectangle.setSize({Constants::PIECE_SIZE, Constants::PIECE_SIZE});
 
@@ -103,7 +103,7 @@ void Board::render_board() {
         rectangle.setFillColor(Constants::HOVERED_WHITE);
       }
 
-      m_window->Draw(rectangle);
+      m_window->draw(rectangle);
     }
   }
 
@@ -121,12 +121,12 @@ void Board::render_board() {
         rectangle.setFillColor(Constants::HOVERED_BLUE);
       }
 
-      m_window->Draw(rectangle);
+      m_window->draw(rectangle);
     }
   }
 }
 
-void Board::render_possible_moves() {
+void Board::renderPossibleMoves() {
   sf::CircleShape moveShape;
   moveShape.setRadius(Constants::MOVE_SIZE);
   moveShape.setFillColor(Constants::MOVE_COLOR);
@@ -135,14 +135,14 @@ void Board::render_possible_moves() {
     moveShape.setPosition(
         Constants::PIECE_SIZE * m_possibleMoves[i].x + Constants::MOVE_OFFSET,
         Constants::PIECE_SIZE * m_possibleMoves[i].y + Constants::MOVE_OFFSET);
-    m_window->Draw(moveShape);
+    m_window->draw(moveShape);
   }
 }
 
 void Board::render() {
-  render_board();
-  render_pieces();
-  render_possible_moves();
+  renderBoard();
+  renderPieces();
+  renderPossibleMoves();
 }
 
 void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
@@ -158,7 +158,7 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
 
   std::vector<Position> possibleMoves =
       m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]
-          ->get_available_moves(m_board_pieces);
+          ->getAvailableMoves(m_board_pieces);
 
   m_possibleMoves = std::move(possibleMoves);
 
@@ -169,9 +169,9 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
 
 void Board::movePiece(Move move) {
   // Move piece from start to end position
-  m_board_pieces[move.endPosition.y][move.endPosition.x] =
-      std::move(m_board_pieces[move.startPosition.y][move.startPosition.x]);
+  m_board_pieces[move.m_endPosition.y][move.m_endPosition.x] =
+      std::move(m_board_pieces[move.m_startPosition.y][move.m_startPosition.x]);
 
   // Set start pos to nullptr
-  m_board_pieces[move.startPosition.y][move.startPosition.x] = nullptr;
+  m_board_pieces[move.m_startPosition.y][move.m_startPosition.x] = nullptr;
 }

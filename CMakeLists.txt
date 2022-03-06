@@ -17,9 +17,17 @@ add_subdirectory(tests)
 file(GLOB_RECURSE ALL_SOURCE_FILES src/*.cpp src/*.h)
 
 add_custom_target(
-  clang-format
+  clang-format 
   COMMAND clang-format
   -style=file
   -i
+  ${ALL_SOURCE_FILES}
+)
+
+add_custom_target(
+  tidy
+  COMMAND clang-tidy
+  -p ${PROJECT_SOURCE_DIR}/build
+  --fix
   ${ALL_SOURCE_FILES}
 )
