@@ -9,8 +9,11 @@ enum class Piece { ROOK, BISHOP, PAWN, KING, QUEEN, KNIGHT };
 struct Position {
   // NOLINTNEXTLINE
   u_int x, y;
-};
 
+  bool operator==(const Position &other) {
+    return other.x == this->x && other.y == this->y;
+  }
+};
 
 class IPiece;
 using BoardPieces = std::vector<std::vector<std::shared_ptr<IPiece>>>;
@@ -21,6 +24,10 @@ protected:
   bool m_isWhite;
   float m_sprite_width, m_sprite_height;
   Position m_Position;
+
+  bool isInRange(uint x, uint y) const noexcept {
+    return x >= 0 && x < 8 && y >= 0 && y < 8;
+  };
 
   /**
    * @brief Add the position passed as a possible move, if it is legal
@@ -33,15 +40,16 @@ protected:
    * used only for pawns going top-left or top-right)
    */
   void addMoveIfLegal(uint x, uint y, std::vector<Position> &moves,
-                      const BoardPieces &boardPieces,
+                      const BoardPieces &boardPieces, bool isWhite,
                       bool opponentPieceMustExist = false) const noexcept {
-    if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+    if (!isInRange(x, y)) {
       return;
     }
 
-    // This is only special case for pawn,  if an enemy piece exist in top
-    // right/left, then the move is legal
-    if (opponentPieceMustExist && boardPieces[y][x]) {
+    // This is only special case for pawn
+    // if an enemy piece exist in top right/left, then the move is legal
+    if (opponentPieceMustExist && boardPieces[y][x] &&
+        boardPieces[y][x]->m_isWhite != isWhite) {
       moves.emplace_back(Position{.x = x, .y = y});
     } else if (!opponentPieceMustExist) {
       moves.emplace_back(Position{.x = x, .y = y});
@@ -59,13 +67,15 @@ public:
 
   Position getPosition() noexcept { return m_Position; }
 
+  virtual void setPosition(const Position &position) noexcept {
+    m_Position = position;
+  }
+
   Piece getType() noexcept { return m_type; }
 
   /**
    * @brief Get all the legal moves
-   *
    * @param boardPieces board and current pieces on it
-   *
    * @return Returns all the legal moves
    */
   virtual std::vector<Position> getAvailableMoves(
@@ -73,9 +83,7 @@ public:
 
   /**
    * @brief TODO: implemented pinned logic
-   *
    * @param boardPieces
-   *
    * @return true if piece is pinned, false otherwise
    */
   bool isPiecePinned(const BoardPieces &boardPieces) const noexcept {

@@ -28,7 +28,7 @@ private:
       break;
     }
 
-    std::cout << "\033" << colorCode << log << "\033[0m -- ";
+    std::cout << "\033" << colorCode << log << "\033[0m ";
   }
 
   template <class Args> static void printArgs(Args args) {
@@ -37,13 +37,13 @@ private:
 
 public:
   template <class... Args> static void info(Args &&...args) {
-    printColored("[INFO] ", Severity::INFO);
+    printColored("[INFO]", Severity::INFO);
     int dummy[] = {0, ((void)printArgs(std::forward<Args>(args)), 0)...};
     std::cout << std::endl;
   }
 
   template <class... Args> static void warn(Args &&...args) {
-    printColored("[WARN] ", Severity::WARN);
+    printColored("[WARN]", Severity::WARN);
     int dummy[] = {0, ((void)printArgs(std::forward<Args>(args)), 0)...};
     std::cout << std::endl;
   }

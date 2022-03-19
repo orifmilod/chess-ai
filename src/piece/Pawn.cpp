@@ -1,3 +1,4 @@
+#include "Constants.h"
 #include "IPiece.h"
 #include "utils/Logger.h"
 #include <SFML/Graphics/Sprite.hpp>
@@ -33,27 +34,37 @@ public:
   std::vector<Position> getAvailableMoves(
       const BoardPieces &boardPieces) override {
     int reverse = m_isWhite ? -1 : 1;
-
     std::vector<Position> moves;
-    if (!m_hasMoved) {
-      moves.emplace_back(
-          Position{.x = m_Position.x, .y = m_Position.y + reverse * 2});
+
+    // Forward move - Pawn can move forward if only there is no piece in front
+    if (isInRange(m_Position.x, m_Position.y + reverse) &&
+        !boardPieces[m_Position.y + reverse][m_Position.x]) {
+      addMoveIfLegal(m_Position.x, m_Position.y + reverse, moves, boardPieces,
+                     m_isWhite);
     }
 
-    // Forward move
-    addMoveIfLegal(m_Position.x, m_Position.y + reverse * 1, moves,
-                   boardPieces);
+    // Double forward move - Pawn can move forward if only there is no piece in
+    // front
+    if (!m_hasMoved && isInRange(m_Position.x, m_Position.y + reverse * 2) &&
+        !boardPieces[m_Position.y + reverse * 2][m_Position.x]) {
+      addMoveIfLegal(m_Position.x, m_Position.y + reverse * 2, moves,
+                     boardPieces, m_isWhite);
+    }
 
     // Upper left move
-    addMoveIfLegal(m_Position.x + reverse * 1, m_Position.y + reverse * 1,
-                   moves, boardPieces, true);
+    addMoveIfLegal(m_Position.x + reverse, m_Position.y + reverse, moves,
+                   boardPieces, m_isWhite, true);
 
     // top right move
-    addMoveIfLegal(m_Position.x - reverse * 1, m_Position.y + reverse * 1,
-                   moves, boardPieces, true);
+    addMoveIfLegal(m_Position.x - reverse, m_Position.y + reverse, moves,
+                   boardPieces, m_isWhite, true);
 
     // TODO: Remove all the moves which will expose a check
-
     return moves;
+  }
+
+  void setPosition(const Position &position) noexcept override {
+    m_Position = position;
+    m_hasMoved = true;
   }
 };

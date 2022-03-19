@@ -8,12 +8,19 @@
 #include <SFML/Window/Window.hpp>
 #include <memory>
 #include <unordered_map>
+#include <vector>
 
 namespace {
 struct Move {
-  Position m_startPosition;
-  Position m_endPosition;
+  Position m_from;
+  Position m_to;
 };
+
+struct PossibleMoves {
+  Position m_currentPosition;
+  std::vector<Position> m_moves;
+};
+
 } // namespace
 
 class Board {
@@ -34,7 +41,7 @@ private:
   void clickedOnBoard(std::unique_ptr<sf::Event> event);
   void movePiece(Move move);
   EventManager m_eventManager;
-  std::vector<Position> m_possibleMoves;
+  PossibleMoves m_possibleMoves;
 
 public:
   Board(std::shared_ptr<WindowInterface> window, bool isWhite);

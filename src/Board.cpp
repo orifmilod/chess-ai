@@ -4,9 +4,10 @@
 #include "piece/IPiece.h"
 #include "piece/PieceFactory.h"
 #include "utils/Logger.h"
+
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/System.hpp>
+#include <algorithm>
 #include <math.h>
 #include <memory>
 #include <optional>
@@ -131,10 +132,11 @@ void Board::renderPossibleMoves() {
   moveShape.setRadius(Constants::MOVE_SIZE);
   moveShape.setFillColor(Constants::MOVE_COLOR);
 
-  for (int i = 0; i < m_possibleMoves.size(); i++) {
-    moveShape.setPosition(
-        Constants::PIECE_SIZE * m_possibleMoves[i].x + Constants::MOVE_OFFSET,
-        Constants::PIECE_SIZE * m_possibleMoves[i].y + Constants::MOVE_OFFSET);
+  for (int i = 0; i < m_possibleMoves.m_moves.size(); i++) {
+    moveShape.setPosition(Constants::PIECE_SIZE * m_possibleMoves.m_moves[i].x +
+                              Constants::MOVE_OFFSET,
+                          Constants::PIECE_SIZE * m_possibleMoves.m_moves[i].y +
+                              Constants::MOVE_OFFSET);
     m_window->draw(moveShape);
   }
 }
@@ -149,10 +151,26 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
   // Check if the mouse clicked on any of the pieces
   std::optional<Position> maybePiecePosition = clickedPiece(event->mouseButton);
   // Did not click on the board or any piece on the board
-  if (!maybePiecePosition.has_value() ||
-      !m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]) {
-    m_possibleMoves.clear();
-    Logger::info("Did not click on any piece");
+  if (!maybePiecePosition.has_value()) {
+    m_possibleMoves.m_moves.clear();
+    Logger::info("Did not click on the board");
+    return;
+  }
+
+  // Check if clicked on the moves
+  auto it =
+      std::find(m_possibleMoves.m_moves.begin(), m_possibleMoves.m_moves.end(),
+                maybePiecePosition.value());
+  if (it != m_possibleMoves.m_moves.end()) {
+    Logger::info("Made a move to ", it->x, it->y);
+    movePiece(Move{.m_from = m_possibleMoves.m_currentPosition, .m_to = *it});
+    m_possibleMoves.m_moves.clear();
+    return;
+  }
+
+  if (!m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]) {
+    m_possibleMoves.m_moves.clear();
+    Logger::info("Didn't click on any piece");
     return;
   }
 
@@ -160,18 +178,22 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
       m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]
           ->getAvailableMoves(m_board_pieces);
 
-  m_possibleMoves = std::move(possibleMoves);
-
-  for (const Position &move : possibleMoves) {
-    Logger::info("x:", move.x, "y", move.y);
-  }
+  m_possibleMoves =
+      PossibleMoves{.m_currentPosition = maybePiecePosition.value(),
+                    .m_moves = std::move(possibleMoves)};
 }
 
 void Board::movePiece(Move move) {
+  Logger::info("From:", move.m_from.x, move.m_from.y, ", To:", move.m_to.x,
+               move.m_to.y);
+
   // Move piece from start to end position
-  m_board_pieces[move.m_endPosition.y][move.m_endPosition.x] =
-      std::move(m_board_pieces[move.m_startPosition.y][move.m_startPosition.x]);
+  m_board_pieces[move.m_to.y][move.m_to.x] =
+      std::move(m_board_pieces[move.m_from.y][move.m_from.x]);
+
+  // Set the position of the piece
+  m_board_pieces[move.m_to.y][move.m_to.x]->setPosition(move.m_to);
 
   // Set start pos to nullptr
-  m_board_pieces[move.m_startPosition.y][move.m_startPosition.x] = nullptr;
+  m_board_pieces[move.m_from.y][move.m_from.x] = nullptr;
 }
