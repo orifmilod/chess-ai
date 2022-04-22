@@ -161,6 +161,7 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
   auto it =
       std::find(m_possibleMoves.m_moves.begin(), m_possibleMoves.m_moves.end(),
                 maybePiecePosition.value());
+
   if (it != m_possibleMoves.m_moves.end()) {
     Logger::info("Made a move to ", it->x, it->y);
     movePiece(Move{.m_from = m_possibleMoves.m_currentPosition, .m_to = *it});
@@ -174,9 +175,11 @@ void Board::clickedOnBoard(std::unique_ptr<sf::Event> event) {
     return;
   }
 
+  Logger::info("Getting possible moves");
   std::vector<Position> possibleMoves =
       m_board_pieces[maybePiecePosition->y][maybePiecePosition->x]
           ->getAvailableMoves(m_board_pieces);
+  Logger::info("Number of moves:", possibleMoves.size());
 
   m_possibleMoves =
       PossibleMoves{.m_currentPosition = maybePiecePosition.value(),

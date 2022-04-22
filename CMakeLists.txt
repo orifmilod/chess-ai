@@ -11,6 +11,18 @@ endif()
 message(STATUS "Compile with CXX_FLAGS set: ${CUSTOM_FLAGS}")
 set(CMAKE_CXX_FLAGS ${CUSTOM_FLAGS})
 
+# set(CMAKE_SYSTEM_NAME Linux)
+# set(CMAKE_SYSTEM_PROCESSOR arm)
+# 
+# set(PATH "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin")
+# 
+# set(triple arm-linux-gnueabihf)
+# set(CMAKE_C_COMPILER "${PATH}/clang")
+# set(CMAKE_C_COMPILER_TARGET ${triple})
+# set(CMAKE_CXX_COMPILER "${PATH}/clang++")
+# set(CMAKE_CXX_COMPILER_TARGET ${triple})
+
+
 add_subdirectory(src)
 add_subdirectory(tests)
 
@@ -31,3 +43,5 @@ add_custom_target(
   --fix
   ${ALL_SOURCE_FILES}
 )
+
+

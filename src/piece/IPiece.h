@@ -52,7 +52,11 @@ protected:
         boardPieces[y][x]->m_isWhite != isWhite) {
       moves.emplace_back(Position{.x = x, .y = y});
     } else if (!opponentPieceMustExist) {
-      moves.emplace_back(Position{.x = x, .y = y});
+      // No allie piece exist on the passed possition
+      if (boardPieces[y][x] == nullptr ||
+          boardPieces[y][x]->m_isWhite != isWhite) {
+        moves.emplace_back(Position{.x = x, .y = y});
+      }
     }
   }
 

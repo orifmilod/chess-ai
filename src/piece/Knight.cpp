@@ -28,10 +28,39 @@ public:
     m_sprite.setScale(spriteSize);
   }
 
-  ~Knight(){};
-
   std::vector<Position> getAvailableMoves(
       const BoardPieces &boardPieces) override {
-    return {};
+    std::vector<Position> moves;
+
+    // North west
+    addMoveIfLegal(m_Position.x - 2, m_Position.y - 1, moves, boardPieces,
+                   m_isWhite);
+
+    addMoveIfLegal(m_Position.x - 1, m_Position.y - 2, moves, boardPieces,
+                   m_isWhite);
+
+    // North east
+    addMoveIfLegal(m_Position.x + 2, m_Position.y - 1, moves, boardPieces,
+                   m_isWhite);
+
+    addMoveIfLegal(m_Position.x + 1, m_Position.y - 2, moves, boardPieces,
+                   m_isWhite);
+
+    // South east
+    addMoveIfLegal(m_Position.x - 2, m_Position.y + 1, moves, boardPieces,
+                   m_isWhite);
+
+    addMoveIfLegal(m_Position.x - 1, m_Position.y + 2, moves, boardPieces,
+                   m_isWhite);
+
+    // South west
+    addMoveIfLegal(m_Position.x + 2, m_Position.y - 1, moves, boardPieces,
+                   m_isWhite);
+
+    addMoveIfLegal(m_Position.x + 1, m_Position.y - 2, moves, boardPieces,
+                   m_isWhite);
+
+    // TODO: Remove all the moves which will expose a check
+    return moves;
   };
 };

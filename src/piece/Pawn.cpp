@@ -29,8 +29,6 @@ public:
     m_sprite.setScale(spriteSize);
   }
 
-  ~Pawn(){};
-
   std::vector<Position> getAvailableMoves(
       const BoardPieces &boardPieces) override {
     int reverse = m_isWhite ? -1 : 1;
