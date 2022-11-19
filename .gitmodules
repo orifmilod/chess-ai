@@ -1,6 +1,0 @@
-[submodule "libs/SFML"]
-	path = libs/SFML
-	url = https://github.com/SFML/SFML.git
-[submodule "libs/gtest"]
-	path = libs/gtest
-	url = https://github.com/google/googletest

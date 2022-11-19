@@ -17,14 +17,15 @@ add_executable(${PROJECT_NAME}
   Constants.h
 )
 
-find_package(SFML COMPONENTS graphics window system REQUIRED)
-
 target_link_directories(${PROJECT_NAME}
   PRIVATE
   utils
   piece
   events
 )
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 target_include_directories(${PROJECT_NAME} 
   PRIVATE
